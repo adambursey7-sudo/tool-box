@@ -1,0 +1,14 @@
+﻿# Tool Box (caja de herramientas del TFG en HTML)
+
+Abrir `tool-box\index.html` desde un servidor local (por ejemplo `python -m http.server` dentro de la carpeta) o subir la carpeta a una web. Las imagenes de las series se cargan con `series.json`, que el navegador no deja leer en `file://`.
+
+- `index.html`: pagina principal (juegos del aula, pautas, series de imagenes, calma, observacion, recursos).
+- `juegos.html` y `calma.html`: juegos en pantalla y pagina de calma, con marca de Tool Box.
+- Autoria: Adam Bursey.
+- Pictogramas: ARASAAC (Gobierno de Aragon), CC BY-NC-SA.
+- Las imagenes de las series parecen generadas con IA: declararlas en el anexo de uso de IA.
+- Pendiente en el TFG: el capitulo 4 (apartado 4.3.2) dice «sin pantallas»; hay que ajustarlo porque Tool Box incluye juegos en pantalla como apoyo.
+
+- Cada ficha de juego del aula tiene boton 'Imprimir tarjetas' (hoja A4 con recorte). Cambia la regla genera 27 cartas (3x3x3); 27 en web, capitulo 4 y anexo 1 (igualado el 26-11).
+
+- flexibilidad.html: juego en pantalla Cambia la regla (3 niveles). Plan del trimestre, copia de seguridad, CSV y letra A-/A+ en index.html. Funciona sin conexion (sw.js) cuando se sirve por http(s).

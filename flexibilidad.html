@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cambia la regla · Tool Box</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1f3a5f">
+<style>
+:root{--bg:#f6f8fb;--fg:#1c2b3a;--pri:#2f6fb0;--dk:#1f3a5f;--line:#d6dee8}
+body.calm{--bg:#f3f3f1}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.45 system-ui,Segoe UI,Arial,sans-serif}
+header{background:var(--dk);color:#fff;padding:10px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+header h1{margin:0;font-size:20px;flex:1}
+button,.btn{font:inherit;min-height:48px;border:2px solid var(--pri);background:#fff;color:var(--dk);border-radius:12px;padding:8px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+button.on{background:var(--pri);color:#fff}
+button:focus-visible,a:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+main{max-width:760px;margin:0 auto;padding:14px;text-align:center}
+.lv{display:flex;gap:8px;justify-content:center;margin:8px 0}
+#banner{min-height:64px;font-size:26px;font-weight:700;border-radius:14px;padding:12px;margin:10px 0;background:#fff3c4;border:2px solid #e0a800;display:flex;align-items:center;justify-content:center}
+#banner.change{background:#ffd9a8;animation:fl .6s 2}
+body.calm #banner.change{animation:none}
+@keyframes fl{50%{transform:scale(1.04)}}
+.card{background:#fff;border:3px solid var(--dk);border-radius:16px;width:150px;height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:0 auto}
+.card svg{width:44px;height:44px}
+.card .rw{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:130px}
+.refs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.refs button{padding:0;height:auto;border:3px solid var(--line);border-radius:16px;background:#fff;min-height:170px;display:flex;justify-content:center;align-items:center;flex-direction:column}
+.refs button:active,.refs button:focus-visible{border-color:var(--pri)}
+.refs .rw{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:110px}
+.refs svg{width:34px;height:34px}
+#msg{min-height:40px;font-size:22px;margin:12px 0;font-weight:600}
+.ok{color:#1e7a46}.no{color:#8a5a00}
+.prog{display:flex;gap:6px;justify-content:center;margin:6px 0}.prog i{width:16px;height:16px;border-radius:50%;background:#d6dee8}.prog i.f{background:#34a56f}
+.info{background:#fff8dc;border:1px solid #ecd98a;border-radius:10px;padding:8px 12px;text-align:left;font-size:16px}
+@media (max-width:480px){.card{width:130px;height:150px}.refs button{min-height:140px}.refs svg{width:28px;height:28px}}
+</style>
+</head>
+<body>
+<header><a class="btn" href="index.html#fe:fc">← Tool Box</a><h1>Cambia la regla</h1><button id="snd" aria-pressed="true">Sonido</button></header>
+<main>
+<p class="info">Toca la carta de abajo que encaja con la carta de arriba según la regla. Después de unos aciertos, la regla cambia. Los fallos no restan: se vuelve a intentar.</p>
+<div class="lv" role="group" aria-label="Nivel"><button data-l="1" class="on" aria-pressed="true">Nivel 1: te digo la regla</button><button data-l="2" aria-pressed="false">Nivel 2: solo aviso</button><button data-l="3" aria-pressed="false">Nivel 3: la descubres</button></div>
+<div id="banner" role="status" aria-live="polite"></div>
+<div class="prog" id="prog" aria-label="Cambios de regla"></div>
+<div class="card" id="cur" aria-label="Carta para clasificar"></div>
+<div class="refs" id="refs"></div>
+<div id="msg" role="status" aria-live="polite"></div>
+<button id="again" style="display:none">Jugar otra vez</button>
+</main>
+<script>
+var $=function(s){return document.querySelector(s)};
+var COL={rojo:'#e5534b',azul:'#3b82f6',verde:'#2f9e69'},SH=['circulo','cuadrado','triangulo'],COLS=['rojo','azul','verde'];
+var RULES=['color','forma','número'],level=1,rule,okRun=0,changes=0,TOTAL=6,need=4,cur,sound=true,busy=false;
+try{if(localStorage.getItem('tb_calm')==='true')document.body.classList.add('calm')}catch(e){}
+function shape(s,c){var f=COL[c];return s==='circulo'?'<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="'+f+'"/></svg>':s==='cuadrado'?'<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="4" width="32" height="32" rx="4" fill="'+f+'"/></svg>':'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L37 36 H3 Z" fill="'+f+'"/></svg>'}
+function html(c){var h='<div class="rw">';for(var i=0;i<c.n;i++)h+=shape(c.s,c.c);return h+'</div>'}
+function name(c){return c.c+', '+c.s+', '+c.n}
+var REFS=[{c:'rojo',s:'circulo',n:1},{c:'azul',s:'cuadrado',n:2},{c:'verde',s:'triangulo',n:3}];
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function beep(f,d){if(!sound)return;try{var A=new (window.AudioContext||window.webkitAudioContext)(),o=A.createOscillator(),g=A.createGain();o.frequency.value=f;g.gain.value=.12;o.connect(g);g.connect(A.destination);o.start();setTimeout(function(){o.stop();A.close()},d)}catch(e){}}
+function newCard(){
+  var p=shuffle([0,1,2]);   // cada dimension encaja con una carta distinta
+  cur={c:REFS[p[0]].c,s:REFS[p[1]].s,n:REFS[p[2]].n,p:p};
+  $('#cur').innerHTML=html(cur);$('#cur').setAttribute('aria-label','Carta: '+name(cur));
+  $('#refs').innerHTML=REFS.map(function(r,i){return '<button data-i="'+i+'" aria-label="'+name(r)+'">'+html(r)+'</button>'}).join('');
+  [].forEach.call(document.querySelectorAll('#refs button'),function(b){b.onclick=function(){answer(+b.dataset.i)}});
+}
+function banner(){
+  var b=$('#banner');b.className='';
+  b.textContent=level===1?'Regla: '+rule.toUpperCase():level===2?'Busca la regla…':'¿Qué regla es?';
+}
+function drawProg(){$('#prog').innerHTML=Array.apply(null,Array(TOTAL)).map(function(_,i){return '<i class="'+(i<changes?'f':'')+'"></i>'}).join('')}
+function answer(i){
+  if(busy)return;
+  var correct=cur.p[RULES.indexOf(rule)];
+  if(i===correct){okRun++;beep(660,120);$('#msg').className='ok';$('#msg').textContent='¡Muy bien!';
+    if(okRun>=need){okRun=0;changes++;drawProg();if(changes>=TOTAL){busy=true;$('#msg').textContent='¡Has terminado! Has seguido '+TOTAL+' reglas distintas.';$('#again').style.display='inline-flex';return}
+      busy=true;var old=rule;do{rule=RULES[Math.floor(Math.random()*3)]}while(rule===old);
+      setTimeout(function(){beep(880,300);var b=$('#banner');b.className='change';b.textContent=level===1?'¡Cambia la regla! Ahora: '+rule.toUpperCase():level===2?'¡La regla ha cambiado!':'¿Qué regla es?';busy=false;newCard()},700);return}
+    setTimeout(newCard,500);
+  }else{okRun=0;beep(220,150);$('#msg').className='no';$('#msg').textContent=level===3?'Esa no era. Prueba otra regla.':'Casi. Mira otra vez y prueba de nuevo.'}
+}
+function start(){rule=RULES[Math.floor(Math.random()*3)];okRun=0;changes=0;busy=false;$('#again').style.display='none';$('#msg').textContent='';banner();drawProg();newCard()}
+[].forEach.call(document.querySelectorAll('.lv button'),function(b){b.onclick=function(){level=+b.dataset.l;[].forEach.call(document.querySelectorAll('.lv button'),function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)});start()}});
+$('#again').onclick=start;
+$('#snd').onclick=function(){sound=!sound;this.setAttribute('aria-pressed',sound);this.classList.toggle('on',!sound);this.textContent=sound?'Sonido':'Sin sonido'};
+start();
+</script>
+</body>
+</html>

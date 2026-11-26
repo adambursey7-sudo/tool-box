@@ -1,0 +1,194 @@
+{
+ "frase": [
+  {
+   "f": "series/frase/el-perro-salta.jpg",
+   "t": "EL PERRO SALTA"
+  },
+  {
+   "f": "series/frase/la-nina-duerme.jpg",
+   "t": "LA NIÑA DUERME"
+  },
+  {
+   "f": "series/frase/la-nina-salta.jpg",
+   "t": "LA NIÑA SALTA"
+  },
+  {
+   "f": "series/frase/el-gato-bebe-leche.jpg",
+   "t": "el gato bebe leche"
+  },
+  {
+   "f": "series/frase/el-nino-come.jpg",
+   "t": "el niño come"
+  },
+  {
+   "f": "series/frase/el-nino-juega-en-el-parque.jpg",
+   "t": "el niño juega en el parque"
+  },
+  {
+   "f": "series/frase/el-nino-lee.jpg",
+   "t": "el niño lee"
+  },
+  {
+   "f": "series/frase/el-perro-duerme-en-su-cama.jpg",
+   "t": "el perro duerme en su cama"
+  },
+  {
+   "f": "series/frase/la-nina-bebe-agua.jpg",
+   "t": "la niña bebe agua"
+  },
+  {
+   "f": "series/frase/la-nina-come-en-la-cocina.jpg",
+   "t": "la niña come en la cocina"
+  },
+  {
+   "f": "series/frase/la-nina-lee-en-el-jardin.jpg",
+   "t": "la niña lee en el jardín"
+  },
+  {
+   "f": "series/frase/la-nina-pinta-un-dibujo.jpg",
+   "t": "la niña pinta un dibujo"
+  }
+ ],
+ "secuencia": [
+  {
+   "f": "series/secuencia/banarse.jpg",
+   "t": "bañarse"
+  },
+  {
+   "f": "series/secuencia/cruzar-la-calle.jpg",
+   "t": "cruzar la calle"
+  },
+  {
+   "f": "series/secuencia/de-semilla-a-flor.jpg",
+   "t": "de semilla a flor"
+  },
+  {
+   "f": "series/secuencia/el-nino-se-cae.jpg",
+   "t": "el niño se cae"
+  },
+  {
+   "f": "series/secuencia/hacer-un-bocadillo.jpg",
+   "t": "hacer un bocadillo"
+  },
+  {
+   "f": "series/secuencia/hacer-un-dibujo.jpg",
+   "t": "hacer un dibujo"
+  },
+  {
+   "f": "series/secuencia/hacer-una-pizza.jpg",
+   "t": "hacer una pizza"
+  },
+  {
+   "f": "series/secuencia/la-nina-bebe-agua.jpg",
+   "t": "la niña bebe agua"
+  },
+  {
+   "f": "series/secuencia/lavarse-las-manos.jpg",
+   "t": "lavarse las manos"
+  },
+  {
+   "f": "series/secuencia/lavarse-los-dientes.jpg",
+   "t": "lavarse los dientes"
+  },
+  {
+   "f": "series/secuencia/plantar-una-semilla.jpg",
+   "t": "plantar una semilla"
+  },
+  {
+   "f": "series/secuencia/ponerse-los-zapatos.jpg",
+   "t": "ponerse los zapatos"
+  },
+  {
+   "f": "series/secuencia/un-dia-en-la-playa.jpg",
+   "t": "un día en la playa"
+  },
+  {
+   "f": "series/secuencia/una-manana-de-cole.jpg",
+   "t": "una mañana de cole"
+  },
+  {
+   "f": "series/secuencia/una-tarta-de-cumpleanos.jpg",
+   "t": "una tarta de cumpleaños"
+  }
+ ],
+ "pasado": [
+  {
+   "f": "series/pasado/nivel-1.jpg",
+   "t": "NIVEL 1"
+  },
+  {
+   "f": "series/pasado/nivel-2-01-crema.jpg",
+   "t": "NIVEL 2 01 CREMA"
+  },
+  {
+   "f": "series/pasado/nivel-2-05-linterna.jpg",
+   "t": "NIVEL 2- 05-LINTERNA"
+  },
+  {
+   "f": "series/pasado/nivel-2-03-semaforo.jpg",
+   "t": "NIVEL 2-03-SEMÁFORO"
+  },
+  {
+   "f": "series/pasado/nivel-2-04-regalos.jpg",
+   "t": "NIVEL 2-04 -REGALOS"
+  },
+  {
+   "f": "series/pasado/nivel-2-02-guantes.jpg",
+   "t": "NIVEL 2-O2-GUANTES"
+  },
+  {
+   "f": "series/pasado/nivel-3-06-suda.jpg",
+   "t": "NIVEL 3-06-SUDA"
+  },
+  {
+   "f": "series/pasado/nivel-3-07-quemado.jpg",
+   "t": "NIVEL 3-07-QUEMADO"
+  },
+  {
+   "f": "series/pasado/nivel-3-08-llega-tarde.jpg",
+   "t": "NIVEL 3-08-LLEGA TARDE"
+  },
+  {
+   "f": "series/pasado/nivel-3-09-planta-seca.jpg",
+   "t": "NIVEL 3-09-PLANTA SECA"
+  },
+  {
+   "f": "series/pasado/nivel-3-10-juguete-roto.jpg",
+   "t": "NIVEL 3-10-JUGUETE ROTO"
+  }
+ ],
+ "despues": [
+  {
+   "f": "series/despues/nivel-1-01-nubes.jpg",
+   "t": "NIVEL 1-01 NUBES"
+  },
+  {
+   "f": "series/despues/nivel-1-02-helado.jpg",
+   "t": "NIVEL 1-02-HELADO"
+  },
+  {
+   "f": "series/despues/nivel-1-03-globo.jpg",
+   "t": "NIVEL 1-03-GLOBO"
+  },
+  {
+   "f": "series/despues/nivel-1-04-vela.jpg",
+   "t": "NIVEL 1-04-VELA"
+  },
+  {
+   "f": "series/despues/nivel-1-05-balon-ventana.jpg",
+   "t": "NIVEL 1-05-BALÓN-VENTANA"
+  },
+  {
+   "f": "series/despues/nivel-2-06-regar.jpg",
+   "t": "NIVEL 2- 06 REGAR"
+  },
+  {
+   "f": "series/despues/nivel-2-08-semaforo-rojo.jpg",
+   "t": "NIVEL 2-08-SEMÁFORO ROJO"
+  },
+  {
+   "f": "series/despues/nivel-2-07-frio.jpg",
+   "t": "nIVEL 2-07-FRIO"
+  }
+ ]
+}

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tool Box</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f3a5f">
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--fg:#1c2b3a;--muted:#5b6b7b;--line:#d6dee8;--pri:#2f6fb0;--pri2:#1f3a5f;--acc:#f2b705;--ok:#2e8b57}
+body.calm{--bg:#f3f3f1;--card:#fcfcfb;--pri:#4d6f8f;--acc:#cdb878}
+body.calm *{animation:none!important;transition:none!important}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+a{color:var(--pri)}
+header{background:var(--pri2);color:#fff;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header img{width:44px;height:44px;border-radius:10px}
+header h1{margin:0;font-size:22px}
+header small{opacity:.8;display:block;font-size:13px}
+header .sp{flex:1}
+button,.btn{font:inherit;border:2px solid var(--pri);background:#fff;color:var(--pri2);border-radius:10px;padding:8px 14px;cursor:pointer;text-decoration:none;display:inline-block}
+button.on,.btn.main{background:var(--pri);color:#fff}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;background:#e4ebf3;position:sticky;top:0;z-index:5}
+nav button{border-color:transparent;background:transparent}
+nav button.on{background:var(--pri);color:#fff}
+main{max-width:1050px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+h2{margin:.2em 0 .5em}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card h3{margin:.1em 0 .3em;font-size:18px}
+.tag{display:inline-block;font-size:13px;background:#e4ebf3;border-radius:99px;padding:1px 10px;margin:0 4px 4px 0}
+.fe-ci{background:#fde2e0}.fe-mt{background:#dbeafe}.fe-fc{background:#fff3c4}.fe-pl{background:#d9f2e3}.fe-re{background:#ebe0f7}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+table{border-collapse:collapse;width:100%;background:var(--card)}
+th,td{border:1px solid var(--line);padding:8px;vertical-align:top;text-align:left;font-size:15px}
+th{background:#e4ebf3}
+.thumbs{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.thumbs button{padding:0;border-radius:12px;overflow:hidden;border:2px solid var(--line);background:#fff;text-align:left}
+.thumbs img{width:100%;height:120px;object-fit:cover;display:block}
+.thumbs span{display:block;padding:4px 8px;font-size:14px}
+.modal{position:fixed;inset:0;background:rgba(10,20,35,.85);display:none;z-index:20;align-items:center;justify-content:center;flex-direction:column;padding:12px}
+.modal.on{display:flex}
+.modal img{max-width:96vw;max-height:72vh;border-radius:10px;background:#fff}
+.modal p{color:#fff;font-size:22px;margin:10px 0;min-height:1.4em}
+.hide-name .name{visibility:hidden}
+.info{background:#fff8dc;border:1px solid #ecd98a;border-radius:10px;padding:10px 14px}
+textarea,input[type=text],input[type=date],select{font:inherit;width:100%;padding:8px;border:2px solid var(--line);border-radius:8px;background:#fff}
+.reg td:first-child{min-width:130px}
+.reg select{padding:4px}
+.foot{font-size:14px;color:var(--muted);border-top:1px solid var(--line);margin-top:30px;padding-top:10px}
+.big{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.big a.card{text-decoration:none;color:inherit;display:block}
+.big a.card:hover{border-color:var(--pri)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:#000;padding:8px 12px;z-index:50}.skip:focus{left:8px;top:8px}
+#printArea{display:none}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pc{border:1px dashed #555;min-height:5.2cm;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-size:22px;break-inside:avoid;color:#000;background:#fff}
+.pc{flex-direction:column}.pc.big{font-size:54px;font-weight:700}.pc.sm{font-size:30px}.pc small{display:block;font-size:13px}
+body.printingCards header,body.printingCards nav,body.printingCards main,body.printingCards .skip{display:none!important}
+body.printingCards #printArea{display:block}
+.board{display:grid;grid-template-columns:repeat(6,1fr);width:15cm}.board div{border:1px solid #000;height:2.5cm;display:flex;align-items:center;justify-content:center;font-size:26px}
+@media print{header,nav,.noprint,.foot{display:none!important}section{display:none!important}section.printme{display:block!important}body{background:#fff}}
+
+:root{--c-ci:#e5534b;--c-mt:#3b82f6;--c-fc:#e0a800;--c-pl:#2f9e69;--c-re:#8e5fd0}
+header .brand{display:flex;gap:12px;align-items:center;color:#fff;text-decoration:none}
+header .brand small{display:block;font-size:13px;opacity:.85}header .brand b{font-size:22px}
+.hlogo{width:58px;height:58px;overflow:visible}
+.hlogo .lid{transform-box:fill-box;transform-origin:50% 100%;animation:lidopen .8s ease-out both}
+.hlogo .p{transform-box:fill-box;transform-origin:50% 50%;animation:pop .7s cubic-bezier(.3,1.6,.5,1) both}
+.hlogo .p1{animation-delay:.45s}.hlogo .p2{animation-delay:.57s}.hlogo .p3{animation-delay:.69s}.hlogo .p4{animation-delay:.81s}.hlogo .p5{animation-delay:.93s}
+@keyframes lidopen{from{transform:scaleY(.08)}to{transform:scaleY(1)}}
+@keyframes pop{from{transform:translateY(34px) scale(.2);opacity:0}to{transform:none;opacity:1}}
+nav{scrollbar-width:none;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+nav button{white-space:nowrap;min-height:44px}
+nav button[class*="fe-"]{border-bottom:5px solid transparent}
+nav .fe-ci{border-bottom-color:var(--c-ci)}nav .fe-mt{border-bottom-color:var(--c-mt)}nav .fe-fc{border-bottom-color:var(--c-fc)}nav .fe-pl{border-bottom-color:var(--c-pl)}nav .fe-re{border-bottom-color:var(--c-re)}
+button,.btn{min-height:44px}
+.fegrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:12px 0 22px}
+.fecard{border:0;border-radius:16px;padding:16px;text-align:left;color:#14202c;min-height:150px;display:flex;flex-direction:column;gap:6px;font-size:16px;cursor:pointer}
+.fecard svg{width:44px;height:44px}.fecard b{font-size:20px}
+.fecard.ci{background:#fde2e0;border-bottom:6px solid var(--c-ci)}.fecard.mt{background:#dbeafe;border-bottom:6px solid var(--c-mt)}.fecard.fc{background:#fff3c4;border-bottom:6px solid var(--c-fc)}.fecard.pl{background:#d9f2e3;border-bottom:6px solid var(--c-pl)}.fecard.re{background:#ebe0f7;border-bottom:6px solid var(--c-re)}
+.fehead{border-radius:16px;padding:16px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:center}
+.fehead h2{margin:0}.fehead svg{width:56px;height:56px;flex:none}
+.fehead.ci{background:#fde2e0}.fehead.mt{background:#dbeafe}.fehead.fc{background:#fff3c4}.fehead.pl{background:#d9f2e3}.fehead.re{background:#ebe0f7}
+.cols3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.cols3 .card{border-top:5px solid var(--line)}.cols3 .a{border-top-color:#2f6fb0}.cols3 .b2{border-top-color:#d98a1f}.cols3 .c2{border-top-color:#2f9e69}
+main:focus{outline:none}nav::-webkit-scrollbar{display:none}
+@media (max-width:600px){main{padding:12px}header{padding:10px 12px}header .brand small{display:none}.hlogo{width:46px;height:46px}.fecard{min-height:0}th,td{padding:6px;font-size:14px}}
+
+.steps ol{margin:.3em 0 .6em;padding-left:1.2em}.steps li{margin:.3em 0}
+.wk{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
+.wk input{width:26px;height:26px}.wk.done{opacity:.6}.wk b{display:block}
+
+/* intro */
+.intro{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 38%,#17304d 0%,#0b1b2e 70%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .6s ease}
+.intro.out{opacity:0;pointer-events:none}
+.intro svg{width:min(60vw,250px);height:auto;overflow:visible;margin-bottom:10px}
+.intro .lid,.intro .p{transform-box:fill-box}
+.intro .lid{transform-origin:50% 100%;transform:scaleY(.08);animation:ilid 1s cubic-bezier(.3,1.3,.5,1) .5s forwards}
+.intro .p{transform-origin:50% 50%;opacity:0;animation:irise 1s cubic-bezier(.3,1.5,.5,1) forwards}
+.intro .p1{animation-delay:1.35s}.intro .p2{animation-delay:1.6s}.intro .p3{animation-delay:1.85s}.intro .p4{animation-delay:2.1s}.intro .p5{animation-delay:2.35s}
+.intro .pb{transform-box:fill-box;transform-origin:50% 50%;animation:ibob 3s ease-in-out 3.4s infinite}
+.intro .p2 .pb{animation-delay:3.7s}.intro .p3 .pb{animation-delay:4s}.intro .p4 .pb{animation-delay:3.55s}.intro .p5 .pb{animation-delay:3.85s}
+@keyframes ilid{to{transform:scaleY(1)}}
+@keyframes irise{0%{transform:translateY(46px) scale(.2);opacity:0}60%{transform:translateY(-20px) scale(1.15);opacity:1}100%{transform:translateY(-8px) scale(1);opacity:1}}
+@keyframes ibob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.intro h2{margin:0;font-size:clamp(40px,11vw,60px);line-height:1.05;font-weight:800;letter-spacing:-.01em;opacity:0;animation:itxt .7s ease-out 3.1s forwards}
+.intro .sub{margin:14px 0 0;font-size:clamp(17px,4.6vw,21px);opacity:0;animation:itxt .7s ease-out 3.6s forwards}
+.intro .by{margin:22px 0 0;font-size:clamp(18px,5vw,23px);font-weight:600;color:#f2b705;opacity:0;animation:itxt .7s ease-out 4.1s forwards}
+.intro .sk{position:absolute;right:16px;bottom:16px;background:transparent;border:2px solid rgba(255,255,255,.55);color:#fff}
+@keyframes itxt{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="intro" id="intro" role="dialog" aria-label="Presentación de Tool Box">
+  <svg viewBox="0 0 120 120" aria-hidden="true"><g class="lid"><path d="M20 70 L10 36 H110 L100 70 Z" fill="#2c5282"/><path d="M26 66 L18 41 H102 L94 66 Z" fill="#3b6aa5"/><rect x="48" y="30" width="24" height="7" rx="3.5" fill="#1f3a5f"/></g>
+<g class="p p1"><g class="pb"><circle cx="30" cy="50" r="9" fill="#e5534b"/></g></g>
+<g class="p p2"><g class="pb"><rect x="42" y="26" width="19" height="19" rx="3" fill="#3b82f6" transform="rotate(-10 51 35)"/></g></g>
+<g class="p p3"><g class="pb"><path d="M72 22 L83 42 H61 Z" fill="#f2b705"/></g></g>
+<g class="p p4"><g class="pb"><path d="M92 28 L101 39 L92 50 L83 39 Z" fill="#34a56f"/></g></g>
+<g class="p p5"><g class="pb"><path d="M101 52 l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="#9b6bd6"/></g></g>
+<path d="M16 68 H104 V100 a7 7 0 0 1 -7 7 H23 a7 7 0 0 1 -7 -7 Z" fill="#2f6fb0"/>
+<rect x="16" y="80" width="88" height="6" fill="#1f3a5f"/>
+<rect x="51" y="75" width="18" height="16" rx="4" fill="#f2b705" stroke="#1f3a5f" stroke-width="3"/></svg>
+  <h2>Tool Box</h2>
+  <p class="sub">Proyecto de Trabajo de Fin de Grado</p>
+  <p class="by">Adam González Bursey</p>
+  <button class="sk" id="introSkip" type="button">Saltar</button>
+</div>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header>
+  <a class="brand" href="#" data-go="inicio" aria-label="Tool Box, ir al inicio"><svg class="hlogo" viewBox="0 0 120 120" aria-hidden="true"><g class="lid"><path d="M20 70 L10 36 H110 L100 70 Z" fill="#1f3a5f"/><path d="M26 66 L18 41 H102 L94 66 Z" fill="#2c5282"/><rect x="48" y="30" width="24" height="7" rx="3.5" fill="#1f3a5f"/></g>
+<g class="p p1"><circle cx="30" cy="50" r="9" fill="#e5534b"/></g>
+<g class="p p2"><rect x="42" y="26" width="19" height="19" rx="3" fill="#3b82f6" transform="rotate(-10 51 35)"/></g>
+<g class="p p3"><path d="M72 22 L83 42 H61 Z" fill="#f2b705"/></g>
+<g class="p p4"><path d="M92 28 L101 39 L92 50 L83 39 Z" fill="#34a56f"/></g>
+<g class="p p5"><path d="M101 52 l2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z" fill="#9b6bd6"/></g>
+<path d="M16 68 H104 V100 a7 7 0 0 1 -7 7 H23 a7 7 0 0 1 -7 -7 Z" fill="#2f6fb0"/>
+<rect x="16" y="80" width="88" height="6" fill="#1f3a5f"/>
+<rect x="51" y="75" width="18" height="16" rx="4" fill="#f2b705" stroke="#1f3a5f" stroke-width="3"/></svg><span><b>Tool Box</b><small>El juego como recurso para las funciones ejecutivas</small></span></a>
+  <span class="sp"></span>
+  <button id="aMinus" aria-label="Letra más pequeña" title="Letra más pequeña">A−</button><button id="aPlus" aria-label="Letra más grande" title="Letra más grande">A+</button>
+  <button id="btnCalm" aria-pressed="false" title="Quita animaciones y baja los colores">Pocos estímulos</button>
+</header>
+<nav id="nav" aria-label="Secciones">
+  <button data-s="inicio" class="on">Inicio</button>
+  <button data-s="fe:ci" class="fe-ci">Inhibición</button>
+  <button data-s="fe:mt" class="fe-mt">Memoria</button>
+  <button data-s="fe:fc" class="fe-fc">Flexibilidad</button>
+  <button data-s="fe:pl" class="fe-pl">Planificación</button>
+  <button data-s="fe:re" class="fe-re">Emociones</button>
+  <button data-s="plan">Trimestre</button>
+  <button data-s="obs">Observación</button>
+  <button data-s="recursos">Recursos</button>
+</nav>
+<main id="contenido" tabindex="-1">
+
+<section id="inicio" class="on">
+  <h2>¿Qué función quieres trabajar hoy?</h2>
+  <p>Elige una función ejecutiva y verás juntos sus juegos del aula, las pautas para todo el grupo, para TDAH y para TEA, y los recursos en pantalla.</p>
+  <div class="fegrid" id="feGrid"></div>
+  <div class="card steps"><h3>Una partida en tres pasos</h3><ol><li><b>Anticipar (2 min).</b> Cuenta qué vais a jugar, cuántas rondas hay y qué se hace si alguien pierde. Deja la regla a la vista.</li><li><b>Jugar (15 a 20 min).</b> Una ronda de prueba y luego la partida. Si no sale, se baja el nivel.</li><li><b>Cerrar (3 min).</b> Celebrad el final sin señalar a nadie y pregunta qué ha sido lo difícil. Anota una línea en el diario.</li></ol><p><a href="#" data-go="plan">Ver el plan de un trimestre</a></p></div>
+  <h3>Además</h3>
+  <div class="big">
+    <a class="card" href="#" data-go="juegos"><h3>Todo el banco de juegos</h3><p>Los ocho juegos del aula, con tarjetas para imprimir.</p></a>
+    <a class="card" href="#" data-go="pautas"><h3>Tabla de pautas</h3><p>Las cinco funciones, con todo el grupo, TDAH y TEA.</p></a>
+    <a class="card" href="#" data-go="pantalla"><h3>Juegos en pantalla</h3><p>Diez juegos con tres niveles para el alumnado.</p></a>
+    <a class="card" href="#" data-go="series"><h3>Series de imágenes</h3><p>Frases, secuencias, qué ha pasado y qué pasará.</p></a>
+    <a class="card" href="calma.html"><h3>Calma</h3><p>Semáforo de ruido, respiración, yoga y cuentos.</p></a>
+    <a class="card" href="#" data-go="obs"><h3>Observación</h3><p>Registro de conductas y diario del docente.</p></a>
+  </div>
+  <p class="info" style="margin-top:16px">Tool Box no mide las funciones ejecutivas ni sustituye la valoración del orientador. Ayuda a elegir juegos, preparar apoyos y anotar lo que se ve en el aula. No guarda nada fuera de este navegador y no debe llevar datos que identifiquen al alumnado.</p>
+  <p class="foot">Tool Box, de Adam Bursey. Pictogramas: ARASAAC (Gobierno de Aragón), licencia CC BY-NC-SA.</p>
+</section>
+
+<section id="fe"><div id="feOut"></div></section>
+
+<section id="juegos">
+  <h2>Juegos del aula (sin pantalla)</h2>
+  <p>Se juegan con cartulina, tarjetas, fichas y dados. Elige por la función que quieres trabajar. La versión general es la que se juega por defecto; los ajustes para TDAH y TEA están en <a href="#" data-go="pautas">Pautas</a>.</p>
+  <div class="row" id="feFilter" role="group" aria-label="Filtrar por función ejecutiva"></div>
+  <div class="grid" id="gameGrid"></div>
+</section>
+
+<section id="pautas">
+  <h2>Pautas por función ejecutiva</h2>
+  <div class="row" role="group" aria-label="Perfil">
+    <button data-p="todo" class="on">Todo el grupo</button>
+    <button data-p="tdah">+ TDAH</button>
+    <button data-p="tea">+ TEA</button>
+    <button data-p="tabla">Ver la tabla entera</button>
+    <button class="noprint" onclick="window.print()">Imprimir</button>
+  </div>
+  <p class="info">Las pautas de la primera columna se usan por defecto y sirven a muchos niños sin diagnóstico. Las otras dos no describen a todo el alumnado con TDAH o TEA, que es muy diverso: sirven para prever barreras y tener un apoyo preparado. Si no hace falta, no se usa.</p>
+  <div id="pautasOut"></div>
+</section>
+
+<section id="pantalla">
+  <h2>Juegos en pantalla</h2>
+  <p>Pensados como apoyo para el alumnado, después de la propuesta del docente. Se abren en otra página y se vuelve con el botón «← Tool Box».</p>
+  <div class="big">
+    <a class="card" href="juegos.html"><h3>Diez juegos con tres niveles</h3><p>Encuentra el diferente, busca las iguales, toca solo si es el modelo, el color de la tinta, parejas, repite la secuencia, qué falta, sílabas, primera letra y rimas. Con voz y filtros por fiesta.</p></a>
+    <a class="card" href="flexibilidad.html"><h3>Cambia la regla (flexibilidad)</h3><p>Clasifica cartas por color, forma o número. La regla cambia y hay que darse cuenta. Tres niveles.</p></a>
+    <a class="card" href="calma.html"><h3>Calma: juegos tranquilos</h3><p>Descanso activo, yoga, cuentos en movimiento y juegos de atención suave.</p></a>
+  </div>
+</section>
+
+<section id="series">
+  <h2>Series de imágenes</h2>
+  <p>Tarjetas para trabajar con todo el grupo en la pizarra digital o en papel. En «¿Qué ha pasado?» y «¿Qué pasará después?» el nombre de la imagen es la solución: se puede ocultar.</p>
+  <div class="row" id="serieTabs" role="group" aria-label="Serie"></div>
+  <div class="row">
+    <label><input type="checkbox" id="hideNames"> Ocultar el nombre de la imagen</label>
+    <span id="serieNiveles"></span>
+  </div>
+  <div class="thumbs" id="thumbs"></div>
+</section>
+<div class="modal" id="viewer" role="dialog" aria-modal="true" aria-label="Imagen">
+  <img id="vImg" alt="Imagen ampliada"><p id="vName" class="name"></p>
+  <div class="row"><button id="vPrev">← Anterior</button><button id="vShow">Mostrar / ocultar nombre</button><button id="vNext">Siguiente →</button><button id="vClose" class="main">Cerrar</button></div>
+</div>
+
+<section id="calma">
+  <h2>Calma</h2>
+  <p>Para cuando el grupo está nervioso o el ruido sube. En la página de calma hay semáforo de ruido con micrófono (el audio no sale del equipo), respiración, yoga con animales canarios, cuentos y música.</p>
+  <p><a class="btn main" href="calma.html">Abrir la página de calma</a></p>
+  <h3>Respiración rápida</h3>
+  <div class="card" style="max-width:420px;text-align:center">
+    <div id="breath" role="status" aria-live="polite" style="width:140px;height:140px;border-radius:50%;background:var(--pri);margin:10px auto;transition:transform 4s ease-in-out;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px">Listos</div>
+    <button id="bGo">Empezar (4 dentro, 4 fuera)</button>
+  </div>
+  <h3>Estrategias para los tropiezos</h3>
+  <div class="grid">
+    <div class="card"><b>Respirar tres veces</b></div><div class="card"><b>Pedir ayuda</b></div><div class="card"><b>Contar hasta cinco</b></div><div class="card"><b>Decir «no pasa nada»</b></div><div class="card"><b>Beber agua</b></div><div class="card"><b>Ir al lugar de calma</b></div>
+  </div>
+  <p>Estas tarjetas se presentan antes de jugar y se dejan a la vista toda la partida (juego Tropiezos).</p>
+</section>
+
+<section id="plan">
+  <h2>Plan del trimestre</h2>
+  <p>Una secuencia posible de doce semanas, con dos partidas por semana. Marca lo que ya has hecho; se queda guardado en este navegador. Es un orden de ejemplo: cámbialo como te venga mejor.</p>
+  <div id="planOut"></div>
+  <p class="info">Con dos partidas por semana salen unas veinticuatro, más que los ocho juegos. Cada juego se repite: primero la versión general y luego el nivel ampliado o una regla que cambia el propio grupo.</p>
+  <div class="row noprint"><button onclick="printSec('plan')">Imprimir el plan</button><button id="planReset">Borrar marcas</button></div>
+</section>
+
+<section id="obs">
+  <h2>Observación</h2>
+  <p>La caja no mide las funciones ejecutivas. Estos dos instrumentos sirven para anotar lo que se ve. Se guardan solo en este navegador. Usa iniciales o un número, nunca el nombre completo.</p>
+  <h3>Registro de conductas (una vez cada dos semanas)</h3>
+  <p class="noprint">Niveles: <b>1</b> con ayuda · <b>2</b> a veces solo · <b>3</b> casi siempre solo.</p>
+  <div class="row noprint"><button id="addRow">+ Alumno</button><button id="clearReg">Vaciar</button><button onclick="printSec('obs')">Imprimir</button></div>
+  <div style="overflow:auto"><table class="reg" id="reg"></table></div>
+  <div class="card noprint"><b>Copia de seguridad</b><p>Lo que escribes solo vive en este navegador. Descarga una copia de vez en cuando y, si cambias de ordenador, cárgala allí.</p><div class="row"><button id="bkSave">Descargar copia</button><label class="btn" style="cursor:pointer">Cargar copia<input type="file" id="bkLoad" accept=".json" style="display:none"></label><button id="csvSave">Registro para Excel (CSV)</button></div></div>
+  <h3>Diario del docente (cada semana de juego)</h3>
+  <div class="card">
+    <label for="dDate">Semana</label> <input type="date" id="dDate">
+    <label for="d1">1. ¿Qué juego ha funcionado y cuál no?</label><textarea id="d1" rows="3"></textarea>
+    <label for="d2">2. ¿Qué ajuste de las pautas se ha usado y qué ha pasado?</label><textarea id="d2" rows="3"></textarea>
+    <label for="d3">3. ¿Qué cambiarías?</label><textarea id="d3" rows="3"></textarea>
+    <div class="row noprint"><button id="saveD" class="main">Guardar entrada</button><button id="clearD">Vaciar diario</button></div>
+  </div>
+  <div id="dList"></div>
+</section>
+
+<section id="recursos">
+  <h2>Recursos</h2>
+  <div class="grid">
+    <div class="card"><h3>Evaluación curricular (Excel)</h3><p>Hoja por criterios y saberes, Infantil y Primaria.</p><a class="btn" href="descargas/evaluacion-curricular.xlsx" download>Descargar</a></div>
+    <div class="card"><h3>Evaluación por áreas (Excel)</h3><p>Una pestaña por área y ciclo.</p><a class="btn" href="descargas/evaluacion-por-areas.xlsx" download>Descargar</a></div>
+    <div class="card"><h3>Arrorró (PDF)</h3><p>Letra para el momento de calma.</p><a class="btn" href="descargas/arrorro.pdf" download>Descargar</a></div>
+    <div class="card"><h3>Pictogramas (lista JSON)</h3><p>139 palabras con su pictograma de ARASAAC, para los juegos.</p><a class="btn" href="descargas/pictogramas-arasaac.json" download>Descargar</a></div>
+  </div>
+  <h3>Anticipar con pictogramas</h3>
+  <p>Antes de un juego conviene mostrar el orden de lo que va a pasar (explicar, jugar, recoger) con pictogramas. Pictogramas: ARASAAC (arasaac.org), Gobierno de Aragón, licencia CC BY-NC-SA: hay que citar la autoría, no usarlos con fines comerciales y compartir igual.</p>
+  <h3>Créditos</h3>
+  <p>Tool Box es obra de Adam Bursey. Fotos de la página de calma: Wikimedia Commons, con la autoría indicada en cada ficha.</p>
+</section>
+
+<p class="foot">Tool Box · Trabajo de Fin de Grado, Grado en Educación Primaria (ULPGC). Versión para revisión, noviembre de 2026.</p>
+</main>
+<div id="printArea" aria-hidden="true"></div>
+
+<script>
+var FE={ci:['Control inhibitorio','fe-ci'],mt:['Memoria de trabajo','fe-mt'],fc:['Flexibilidad cognitiva','fe-fc'],pl:['Planificación','fe-pl'],re:['Regulación emocional','fe-re']};
+var GAMES=[
+{n:1,t:'La palmada',fe:'ci',ap:'',area:'Lengua',ciclo:'1.º y 2.º ciclo',mec:'Se van girando cartas con palabras; solo se da la palmada cuando sale un nombre de animal.',mat:'Baraja de 40 tarjetas con palabra',sube:'Segunda regla (palmada con animales, golpe en la mesa con comidas): añade memoria de trabajo.'},
+{n:2,t:'Al revés',fe:'ci',ap:'flexibilidad',area:'Matemáticas',ciclo:'1.º y 2.º ciclo',mec:'Tarjetas con un número grande o pequeño: hay que decir lo contrario de lo que se ve. Cada tres rondas cambia qué significa «al revés».',mat:'20 tarjetas',sube:'Cambiar el significado de «al revés» más a menudo.'},
+{n:3,t:'La mochila',fe:'mt',ap:'',area:'Lengua',ciclo:'Todos',mec:'«Me voy de viaje y meto en la mochila…»: cada jugador repite la lista y añade un objeto. El equipo gana si llega a diez objetos. Si se olvida, se pide una pista.',mat:'Mochila y 15 objetos o tarjetas',sube:'Más objetos o menos pistas.'},
+{n:4,t:'Parejas que suman',fe:'mt',ap:'inhibición',area:'Matemáticas',ciclo:'1.º y 2.º ciclo',mec:'Memoria con las cartas boca abajo, pero las parejas son dos cartas que suman 10.',mat:'20 cartas numeradas',sube:'Más cartas o sumar 20.'},
+{n:5,t:'Cambia la regla',fe:'fc',ap:'',area:'Matemáticas',ciclo:'2.º y 3.er ciclo',mec:'Se clasifican cartas por color; cuando suena la campana, la regla cambia a forma o a número y se sigue clasificando.',mat:'27 cartas (tres colores, tres formas, tres números) y campana',sube:'Versión ampliada: solo suena la campana y hay que adivinar la regla por las cartas que el docente acepta.'},
+{n:6,t:'Ruta en cinco pasos',fe:'pl',ap:'',area:'Conocimiento del Medio',ciclo:'2.º y 3.er ciclo',mec:'En un tablero con obstáculos, cada jugador escribe su ruta de cinco pasos antes de mover la ficha. Si choca, vuelve al inicio y corrige la ruta.',mat:'Tablero de 6 × 6, fichas y tarjetas de flechas',sube:'Más pasos o más obstáculos.'},
+{n:7,t:'El mapa partido',fe:'pl',ap:'regulación emocional',area:'Conocimiento del Medio',ciclo:'2.º y 3.er ciclo',mec:'Cooperativo: cada jugador tiene un trozo del mapa y nadie puede enseñarlo. Hablando, el equipo acuerda un camino de la escuela al parque.',mat:'Mapa en dos piezas (cuatro en el nivel ampliado) y ficha del equipo',sube:'Mapa en cuatro piezas y dos calles cortadas.'},
+{n:8,t:'Tropiezos',fe:'re',ap:'inhibición',area:'Educación Emocional y para la Creatividad',ciclo:'Todos',mec:'Carrera de dados. Las casillas rojas obligan a sacar una tarjeta de tropiezo («pierdes un turno»). Antes de seguir, el jugador dice qué siente y elige una tarjeta de estrategia.',mat:'Tablero, dado, 12 tarjetas de tropiezo y 6 de estrategia',sube:'Más casillas rojas.'}
+];
+var PAUTAS=[
+{fe:'ci',g:'Turnos cortos y en orden fijo. Una regla escrita o dibujada a la vista. Se nombra el truco para esperar (manos debajo de la mesa, contar en silencio).',tdah:'Un objeto que marque de quién es el turno (una ficha que se pasa). Sentarse cerca del docente. Un papel activo cuando no le toca (repartir, ser árbitro). Reconocer en el momento cuando espera bien.',tea:'Decir antes de empezar cuántos turnos va a haber. El orden de los turnos, siempre el mismo y visible.'},
+{fe:'mt',g:'Tres reglas como máximo, con pictograma. Repetir la regla al empezar cada ronda. Permitir pedir una pista.',tdah:'Reducir lo que hay que recordar (menos cartas, listas más cortas). Una tarjeta recordatorio delante. Pasar al nivel ampliado solo cuando el básico salga bien.',tea:'Las reglas por escrito, en el mismo formato en todos los juegos. No cambiar la regla sin avisar.'},
+{fe:'fc',g:'Avisar de que las reglas van a cambiar y practicar un cambio de prueba. Una señal clara de cambio (la campana). Decir la regla nueva en voz alta.',tdah:'Hacer el cambio de uno en uno y dejar que sea el propio alumno quien diga la regla nueva. Si se bloquea, volver un momento a la regla anterior.',tea:'Anticipar el cambio con un pictograma antes de que ocurra. Empezar con un solo cambio por partida. Explicar por qué cambia la regla.'},
+{fe:'pl',g:'Dar un tiempo para pensar antes de mover. Dividir la meta en pasos («primero…, después…»). Modelar en voz alta cómo se planifica.',tdah:'Darle la ruta por escrito o con flechas antes de mover. Pasos pocos y comprobados uno a uno.',tea:'Un esquema visual del juego entero (principio, pasos, final). Permitir que planifique solo antes de hacerlo en grupo.'},
+{fe:'re',g:'Decir antes de jugar que se puede perder y qué se hace entonces. Tarjetas de estrategia a la vista. Celebrar el final sin señalar a quien pierde.',tdah:'Partidas cortas, con el final cerca. Una pausa breve fuera de la mesa, sin castigo, si se desborda, y volver. Preferir el juego cooperativo al principio.',tea:'Avisar de cuánto queda para acabar. Reducir el ruido (grupos pequeños, sin gritos de celebración). Un lugar de calma acordado de antemano.'}
+];
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+function store(k,v){try{if(v===undefined){return JSON.parse(localStorage.getItem('tb_'+k))}localStorage.setItem('tb_'+k,JSON.stringify(v))}catch(e){return null}}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+/* navegacion */
+var SHAPE={ci:'<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#e5534b"/></svg>',mt:'<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="30" height="30" rx="5" fill="#3b82f6"/></svg>',fc:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 L37 34 H3 Z" fill="#f2b705"/></svg>',pl:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L37 20 L20 37 L3 20 Z" fill="#34a56f"/></svg>',re:'<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3l5 11 12 1.5-9 8 2.6 12L20 29.5 9.4 35.5 12 23.5l-9-8L15 14z" fill="#9b6bd6"/></svg>'};
+var FEI={
+ci:{d:'Frenar lo primero que se nos ocurre: esperar el turno, no responder antes de tiempo, no tocar todavía.',scr:[['Toca solo si es el modelo','juegos.html'],['El color de la tinta','juegos.html'],['Encuentra el diferente (atención)','juegos.html']],ser:[]},
+mt:{d:'Retener información unos segundos y usarla: recordar la regla, una lista o un orden.',scr:[['Parejas','juegos.html'],['Repite la secuencia','juegos.html'],['¿Qué falta?','juegos.html']],ser:[]},
+fc:{d:'Cambiar de regla o de punto de vista cuando la situación cambia, sin quedarse atascado.',scr:[['Cambia la regla (en pantalla)','flexibilidad.html']],ser:[]},
+pl:{d:'Pensar los pasos antes de actuar y ordenarlos para llegar a una meta.',scr:[],ser:[['frase','Construye la frase'],['secuencia','Ordena la secuencia'],['pasado','¿Qué ha pasado?'],['despues','¿Qué pasará después?']]},
+re:{d:'Notar lo que se siente y elegir qué hacer con ello, sobre todo al perder o equivocarse.',scr:[['Página de calma: respiración, yoga y cuentos','calma.html'],['Semáforo de ruido','calma.html']],ser:[]}
+};
+function gameCard(g){return '<article class="card"><h3>'+g.n+'. '+g.t+'</h3><span class="tag '+FE[g.fe][1]+'">'+FE[g.fe][0]+(g.ap?' ('+g.ap+')':'')+'</span><span class="tag">'+g.area+'</span><span class="tag">'+g.ciclo+'</span><p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p><button class="noprint" data-pc="'+g.n+'">Imprimir tarjetas</button></article>'}
+function drawFE(k){
+  var f=FEI[k],p=PAUTAS.filter(function(x){return x.fe===k})[0],h='';
+  h+='<div class="fehead '+k+'">'+SHAPE[k]+'<div><h2>'+FE[k][0]+'</h2><p style="margin:0">'+f.d+'</p></div></div>';
+  h+='<h3>Juegos del aula (sin pantalla)</h3><div class="grid">'+GAMES.filter(function(g){return g.fe===k}).map(gameCard).join('')+'</div>';
+  h+='<h3>Pautas</h3><div class="cols3"><article class="card a"><b>Para todo el grupo</b><p>'+p.g+'</p></article><article class="card b2"><b>Se añade para el TDAH</b><p>'+p.tdah+'</p></article><article class="card c2"><b>Se añade para el TEA</b><p>'+p.tea+'</p></article></div>';
+  h+='<h3>En pantalla y con imágenes</h3>';
+  if(f.nota)h+='<p class="info">'+f.nota+'</p>';
+  h+='<div class="row">'+f.scr.map(function(x){return '<a class="btn" href="'+x[1]+'">'+x[0]+'</a>'}).join('')+f.ser.map(function(x){return '<button data-serie="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>';
+  if(k==='re')h+='<h3>Estrategias para los tropiezos</h3><div class="grid"><div class="card"><b>Respirar tres veces</b></div><div class="card"><b>Pedir ayuda</b></div><div class="card"><b>Contar hasta cinco</b></div><div class="card"><b>Decir «no pasa nada»</b></div><div class="card"><b>Beber agua</b></div><div class="card"><b>Ir al lugar de calma</b></div></div><p><a href="#" data-go="calma">Respiración rápida</a></p>';
+  $('#feOut').innerHTML=h;
+  $$('[data-serie]',$('#feOut')).forEach(function(b){b.onclick=function(){serKey=b.dataset.serie;nivSel=0;show('series');drawSeries()}});
+  $$('[data-go]',$('#feOut')).forEach(function(a){a.onclick=function(e){e.preventDefault();show(a.dataset.go)}});
+}
+function show(id,fromHash){
+  var sid=id.indexOf('fe:')===0?'fe':id;if(!document.getElementById(sid)){id=sid='inicio'}
+  if(sid==='fe')drawFE(id.slice(3));
+  $$('section').forEach(function(s){s.classList.toggle('on',s.id===sid)});
+  $$('#nav button').forEach(function(b){var on=b.dataset.s===id;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  if(!fromHash){try{history.pushState(null,'','#'+id)}catch(e){}}
+  window.scrollTo(0,0);$('#contenido').focus({preventScroll:true});
+}
+window.addEventListener('popstate',function(){show(location.hash.slice(1)||'inicio',true)});
+$('#feGrid').innerHTML=Object.keys(FE).map(function(k){return '<button class="fecard '+k+'" data-go="fe:'+k+'">'+SHAPE[k]+'<b>'+FE[k][0]+'</b><span>'+FEI[k].d+'</span></button>'}).join('');
+$$('#nav button').forEach(function(b){b.onclick=function(){show(b.dataset.s)}});
+$$('[data-go]').forEach(function(a){a.onclick=function(e){e.preventDefault();show(a.dataset.go)}});
+function printSec(id){var s=document.getElementById(id);s.classList.add('printme');window.print();s.classList.remove('printme')}
+/* modo pocos estimulos */
+var lastFocus=null;var calmOn=store('calm')===true;
+function setCalm(v){calmOn=v;document.body.classList.toggle('calm',v);$('#btnCalm').setAttribute('aria-pressed',v);$('#btnCalm').classList.toggle('on',v);store('calm',v)}
+$('#btnCalm').onclick=function(){setCalm(!calmOn)};setCalm(calmOn);
+/* juegos */
+var feSel='todas';
+function drawGames(){
+  var f='<button data-f="todas" class="'+(feSel==='todas'?'on':'')+'">Todas</button>';
+  Object.keys(FE).forEach(function(k){f+='<button data-f="'+k+'" class="'+(feSel===k?'on':'')+'">'+FE[k][0]+'</button>'});
+  $('#feFilter').innerHTML=f;
+  $$('#feFilter button').forEach(function(b){b.setAttribute('aria-pressed',b.classList.contains('on'));b.onclick=function(){feSel=b.dataset.f;drawGames()}});
+  $('#gameGrid').innerHTML=GAMES.filter(function(g){return feSel==='todas'||g.fe===feSel}).map(function(g){
+    return '<article class="card"><h3>'+g.n+'. '+g.t+'</h3><span class="tag '+FE[g.fe][1]+'">'+FE[g.fe][0]+(g.ap?' ('+g.ap+')':'')+'</span><span class="tag">'+g.area+'</span><span class="tag">'+g.ciclo+'</span>'+
+    '<p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p><button class="noprint" data-pc="'+g.n+'">Imprimir tarjetas</button></article>'}).join('');
+}
+$('#feOut').addEventListener('click',function(e){var b=e.target.closest('[data-pc]');if(b)printCards(+b.dataset.pc)});
+$('#gameGrid').addEventListener('click',function(e){var b=e.target.closest('[data-pc]');if(b)printCards(+b.dataset.pc)});
+drawGames();
+/* tarjetas imprimibles */
+function cardsFor(n){
+  var c=function(t,k){return '<div class="pc '+(k||'')+'">'+t+'</div>'};
+  var ANI=['perro','gato','conejo','pájaro','pez','caballo','vaca','oveja','cerdo','gallina','tortuga','mariposa','lagarto','delfín','abeja','ratón','pato','burro','león','mono'];
+  var NOA=['mesa','silla','libro','lápiz','pelota','casa','coche','árbol','flor','nube','zapato','reloj','mochila','puerta','ventana','pan','leche','camisa','luna','sol'];
+  if(n===1)return {t:'La palmada: 40 tarjetas (20 animales y 20 que no lo son)',h:ANI.concat(NOA).map(function(w){return c(w,'sm')}).join('')};
+  if(n===2){var a=[];for(var i=1;i<=20;i++){var v=i>10?i-10:i;a.push(c(i%2?'<span style="font-size:90px">'+v+'</span>':'<span style="font-size:24px">'+v+'</span>','big'))}return {t:'Al revés: 20 tarjetas con número grande o pequeño',h:a.join('')}}
+  if(n===3)return {t:'La mochila: 15 tarjetas de objetos',h:['cuaderno','gorra','bocadillo','linterna','toalla','botella','mapa','gafas','paraguas','calcetines','cámara','peine','jersey','guantes','cuerda'].map(function(w){return c(w,'sm')}).join('')};
+  if(n===4){var N=[1,9,2,8,3,7,4,6,5,5,0,10,1,9,2,8,3,7,4,6];return {t:'Parejas que suman: 20 cartas (dos cartas que suman 10)',h:N.map(function(x){return c(x,'big')}).join('')}}
+  if(n===5){var col=['rojo','azul','verde'],sh=[['●','círculo'],['■','cuadrado'],['▲','triángulo']],h='',cc={rojo:'#c0392b',azul:'#2471a3',verde:'#1e8449'};
+    col.forEach(function(k){sh.forEach(function(f){[1,2,3].forEach(function(m){var t='';for(var i=0;i<m;i++)t+=f[0]+' ';h+='<div class="pc" style="color:'+cc[k]+';font-size:34px">'+t+'<small style="color:#000">'+k+', '+f[1]+', '+m+'</small></div>'})})});
+    return {t:'Cambia la regla: 27 cartas (3 colores × 3 formas × 3 números)',h:h}}
+  if(n===6){var b='';for(var r=0;r<6;r++)for(var q=0;q<6;q++)b+='<div>'+((r===0&&q===0)?'Salida':(r===5&&q===5)?'Meta':'')+'</div>';var ar=['↑','↑','↑','↓','↓','←','←','←','→','→','→','↓'];
+    return {t:'Ruta en cinco pasos: tablero 6 × 6 (marca los obstáculos a lápiz) y 12 flechas',h:'<div class="board">'+b+'</div><div class="cards" style="margin-top:12px">'+ar.map(function(x){return c(x,'big')}).join('')+'</div>'}}
+  if(n===7)return {t:'El mapa partido: dibuja el mapa de la escuela al parque y recórtalo en dos piezas (cuatro para el nivel ampliado)',h:'<div class="board" style="grid-template-columns:repeat(2,1fr);width:18cm"><div style="height:11cm">1</div><div style="height:11cm">2</div><div style="height:11cm">3</div><div style="height:11cm">4</div></div>'}
+  var T=['Pierdes un turno','Vuelves tres casillas','Empiezas la ronda otra vez','Otro jugador te adelanta','Te quedas sin dado una vez','Cambias tu ficha por la del final','Retrocedes hasta la casilla azul','Esperas a que acaben todos','Pierdes un objeto','Cuentas hasta diez en voz alta','Se acaba tu tiempo de pensar','Tiras con la otra mano'];
+  var E=['Respiro tres veces','Pido ayuda','Cuento hasta cinco','Me digo: no pasa nada','Bebo agua','Voy al lugar de calma'];
+  return {t:'Tropiezos: 12 tarjetas de tropiezo y 6 de estrategia (verdes)',h:T.map(function(x){return c(x,'sm')}).join('')+E.map(function(x){return '<div class="pc sm" style="background:#e8f4ea">'+x+'</div>'}).join('')}
+}
+function printCards(n){var d=cardsFor(n),p=$('#printArea');p.innerHTML='<h2>'+d.t+'</h2>'+(d.h.indexOf('class="board"')<0?'<div class="cards">'+d.h+'</div>':d.h);document.body.classList.add('printingCards');window.print();document.body.classList.remove('printingCards');p.innerHTML=''}
+/* pautas */
+var prof='todo';
+function drawPautas(){
+  $$('[data-p]').forEach(function(b){b.classList.toggle('on',b.dataset.p===prof);b.setAttribute('aria-pressed',b.dataset.p===prof)});
+  var h='';
+  if(prof==='tabla'){
+    h='<div style="overflow:auto"><table><tr><th>Función ejecutiva</th><th>Para todo el grupo</th><th>Se añade para el TDAH</th><th>Se añade para el TEA</th></tr>'+PAUTAS.map(function(p){return '<tr><td><b>'+FE[p.fe][0]+'</b></td><td>'+p.g+'</td><td>'+p.tdah+'</td><td>'+p.tea+'</td></tr>'}).join('')+'</table></div>';
+  }else{
+    h='<div class="grid">'+PAUTAS.map(function(p){var x='<p>'+p.g+'</p>';if(prof==='tdah')x+='<p><b>TDAH.</b> '+p.tdah+'</p>';if(prof==='tea')x+='<p><b>TEA.</b> '+p.tea+'</p>';return '<article class="card"><span class="tag '+FE[p.fe][1]+'">'+FE[p.fe][0]+'</span>'+x+'</article>'}).join('')+'</div>';
+  }
+  $('#pautasOut').innerHTML=h;
+}
+$$('[data-p]').forEach(function(b){b.onclick=function(){prof=b.dataset.p;drawPautas()}});drawPautas();
+/* series */
+var SER={},serKey='frase',nivSel=0,vList=[],vI=0;
+var SNAMES={frase:'Construye la frase',secuencia:'Ordena la secuencia',pasado:'¿Qué ha pasado?',despues:'¿Qué pasará después?'};
+function nivel(t){var m=/nivel\s*(\d)/i.exec(t);return m?+m[1]:0}
+function nice(t){t=t.replace(/nivel\s*\d[\s\-]*(\d+)?[\s\-]*/i,'').trim()||t;t=t.toLowerCase();return t.charAt(0).toUpperCase()+t.slice(1)}
+function drawSeries(){
+  $('#serieTabs').innerHTML=Object.keys(SNAMES).map(function(k){return '<button data-k="'+k+'" class="'+(k===serKey?'on':'')+'">'+SNAMES[k]+'</button>'}).join('');
+  $$('#serieTabs button').forEach(function(b){b.onclick=function(){serKey=b.dataset.k;nivSel=0;drawSeries()}});
+  var list=SER[serKey]||[];
+  var hasN=list.some(function(x){return nivel(x.t)});
+  $('#serieNiveles').innerHTML=hasN?['Todos',1,2,3].map(function(n,i){return '<button data-n="'+i+'" class="'+(nivSel===i?'on':'')+'">'+(i?'Nivel '+n:n)+'</button>'}).join(' '):'';
+  $$('#serieNiveles button').forEach(function(b){b.onclick=function(){nivSel=+b.dataset.n;drawSeries()}});
+  vList=list.filter(function(x){return !nivSel||nivel(x.t)===nivSel});
+  $('#thumbs').className='thumbs'+($('#hideNames').checked?' hide-name':'');
+  $('#thumbs').innerHTML=vList.map(function(x,i){return '<button data-i="'+i+'"><img loading="lazy" src="'+x.f+'" alt="Imagen '+(i+1)+' de la serie"><span class="name">'+esc(nice(x.t))+'</span></button>'}).join('');
+  $$('#thumbs button').forEach(function(b){b.onclick=function(){openV(+b.dataset.i)}});
+}
+function openV(i){vI=(i+vList.length)%vList.length;var x=vList[vI];$('#vImg').src=x.f;$('#vName').textContent=nice(x.t);$('#vName').style.visibility=$('#hideNames').checked?'hidden':'visible';lastFocus=document.activeElement;$('#viewer').classList.add('on');$('#vClose').focus()}
+$('#vPrev').onclick=function(){openV(vI-1)};$('#vNext').onclick=function(){openV(vI+1)};
+$('#vShow').onclick=function(){var n=$('#vName');n.style.visibility=n.style.visibility==='hidden'?'visible':'hidden'};
+$('#vClose').onclick=function(){$('#viewer').classList.remove('on');if(lastFocus)lastFocus.focus()};
+document.addEventListener('keydown',function(e){if(!$('#viewer').classList.contains('on'))return;if(e.key==='Escape')$('#vClose').click();if(e.key==='ArrowLeft')$('#vPrev').click();if(e.key==='ArrowRight')$('#vNext').click()});
+$('#hideNames').onchange=drawSeries;
+fetch('series.json').then(function(r){return r.json()}).then(function(d){SER=d;drawSeries()}).catch(function(){$('#thumbs').innerHTML='<p class="info">Las imágenes se cargan desde la carpeta de la caja. Si abres el archivo suelto, no se ven: abre Tool Box desde su carpeta con un servidor local o súbela a una web.</p>'});
+/* respiracion */
+var bt=null,bOn=false;
+$('#bGo').onclick=function(){var b=$('#breath');if(bOn){clearInterval(bt);bOn=false;b.style.transform='scale(1)';b.textContent='Listos';$('#bGo').textContent='Empezar (4 dentro, 4 fuera)';return}
+  bOn=true;$('#bGo').textContent='Parar';var inh=false;function step(){inh=!inh;b.style.transform=calmOn?'scale(1)':(inh?'scale(1.6)':'scale(1)');b.textContent=inh?'Coge aire':'Suelta el aire'}
+  step();bt=setInterval(step,4000)};
+/* registro */
+var CONDS=['Espera el turno','Recuerda la regla','Acepta el cambio','Piensa antes de mover','Se calma tras un tropiezo'];
+var reg=store('reg')||[{n:'',v:['','','','','']}];
+function drawReg(){
+  var h='<tr><th>Alumno (iniciales o número)</th>'+CONDS.map(function(c){return '<th>'+c+'</th>'}).join('')+'<th>Fecha</th></tr>';
+  reg.forEach(function(r,i){h+='<tr><td><input type="text" data-i="'+i+'" data-k="n" value="'+esc(r.n)+'" aria-label="Alumno"></td>'+r.v.map(function(v,j){return '<td><select data-i="'+i+'" data-j="'+j+'" aria-label="'+CONDS[j]+'">'+['','1','2','3'].map(function(o){return '<option'+(o===(({A:'1',V:'2',S:'3'})[v]||v)?' selected':'')+'>'+o+'</option>'}).join('')+'</select></td>'}).join('')+'<td><input type="date" data-i="'+i+'" data-k="d" value="'+(r.d||'')+'"></td></tr>'});
+  $('#reg').innerHTML=h;
+  $$('#reg input').forEach(function(e){e.onchange=function(){reg[+e.dataset.i][e.dataset.k]=e.value;store('reg',reg)}});
+  $$('#reg select').forEach(function(e){e.onchange=function(){reg[+e.dataset.i].v[+e.dataset.j]=e.value;store('reg',reg)}});
+}
+$('#addRow').onclick=function(){reg.push({n:'',v:['','','','','']});store('reg',reg);drawReg()};
+$('#clearReg').onclick=function(){if(confirm('¿Vaciar el registro?')){reg=[{n:'',v:['','','','','']}];store('reg',reg);drawReg()}};
+drawReg();
+/* diario */
+var diary=store('diario')||[];
+function drawD(){$('#dList').innerHTML=diary.map(function(d,i){return '<div class="card" style="margin-top:8px"><b>'+esc(d.f||'Sin fecha')+'</b><p><b>Funcionó / no:</b> '+esc(d.a)+'</p><p><b>Ajuste usado:</b> '+esc(d.b)+'</p><p><b>Cambiaría:</b> '+esc(d.c)+'</p></div>'}).reverse().join('')}
+$('#saveD').onclick=function(){diary.push({f:$('#dDate').value,a:$('#d1').value,b:$('#d2').value,c:$('#d3').value});store('diario',diary);['d1','d2','d3'].forEach(function(i){$('#'+i).value=''});drawD()};
+$('#clearD').onclick=function(){if(confirm('¿Vaciar el diario?')){diary=[];store('diario',diary);drawD()}};
+drawD();
+/* plan del trimestre */
+var WEEKS=[['1','Presentación al grupo: qué vamos a practicar, las tarjetas de estrategia y la rutina de anticipar, jugar y cerrar. Juego 1.',null],['2–3','Control inhibitorio: juegos 1 y 2. Primer registro de conductas.','ci'],['4–5','Memoria de trabajo: juegos 3 y 4.','mt'],['6–7','Flexibilidad cognitiva: juego 5, versión general y ampliada. Segundo registro.','fc'],['8–9','Planificación: juegos 6 y 7.','pl'],['10–11','Regulación emocional: juego 8 y vuelta a los favoritos. Tercer registro.','re'],['12','Cierre: el grupo elige un juego y propone un cambio de regla. Diario final del docente.',null]];
+var planDone=store('plan')||[];
+function drawPlan(){$('#planOut').innerHTML=WEEKS.map(function(w,i){return '<div class="wk'+(planDone[i]?' done':'')+'"><input type="checkbox" data-w="'+i+'" '+(planDone[i]?'checked':'')+' aria-label="Hecho: semanas '+w[0]+'"><div><b>Semanas '+w[0]+'</b>'+w[1]+'</div>'+(w[2]?'<button class="noprint" data-go="fe:'+w[2]+'">Abrir</button>':'<span></span>')+'</div>'}).join('');
+  $$('#planOut [data-w]').forEach(function(c){c.onchange=function(){planDone[+c.dataset.w]=c.checked;store('plan',planDone);drawPlan()}});
+  $$('#planOut [data-go]').forEach(function(b){b.onclick=function(){show(b.dataset.go)}})}
+$('#planReset').onclick=function(){if(confirm('¿Borrar las marcas?')){planDone=[];store('plan',planDone);drawPlan()}};
+drawPlan();
+/* copia de seguridad */
+function dl(name,text,type){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)}
+$('#bkSave').onclick=function(){dl('tool-box-copia.json',JSON.stringify({reg:reg,diario:diary,plan:planDone}),'application/json')};
+$('#bkLoad').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.reg){reg=d.reg;store('reg',reg)}if(d.diario){diary=d.diario;store('diario',diary)}if(d.plan){planDone=d.plan;store('plan',planDone)}drawReg();drawD();drawPlan();alert('Copia cargada.')}catch(x){alert('Ese archivo no es una copia de Tool Box.')}};r.readAsText(f)};
+$('#csvSave').onclick=function(){var q=function(t){return '"'+String(t).replace(/"/g,'""')+'"'};var l=[['Alumno'].concat(CONDS).concat(['Fecha']).map(q).join(';')];reg.forEach(function(r){l.push([r.n].concat(r.v).concat([r.d||'']).map(q).join(';'))});dl('registro-conductas.csv','\ufeff'+l.join('\r\n'),'text/csv')};
+/* tamano de letra */
+var fsz=store('fs')||17;function setFs(v){fsz=Math.max(14,Math.min(26,v));document.body.style.fontSize=fsz+'px';store('fs',fsz)}
+$('#aPlus').onclick=function(){setFs(fsz+2)};$('#aMinus').onclick=function(){setFs(fsz-2)};setFs(fsz);
+if(location.hash.length>1)show(location.hash.slice(1),true);
+/* intro: una vez por sesion; no sale con movimiento reducido, con pocos estimulos ni al entrar a una seccion */
+(function(){var el=$('#intro'),seen=false,t;
+  try{seen=sessionStorage.getItem('tb_intro')==='1'}catch(e){}
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(seen||reduce||calmOn||location.hash.length>1){el.remove();return}
+  function close(){clearTimeout(t);el.classList.add('out');try{sessionStorage.setItem('tb_intro','1')}catch(e){}setTimeout(function(){el.remove()},700)}
+  el.addEventListener('click',close);
+  document.addEventListener('keydown',function k(e){if(e.key==='Escape'||e.key==='Enter'||e.key===' '){document.removeEventListener('keydown',k);close()}});
+  t=setTimeout(close,6500);
+  $('#introSkip').focus({preventScroll:true});
+})();
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){navigator.serviceWorker.register('sw.js').catch(function(){})}
+</script>
+</body>
+</html>
