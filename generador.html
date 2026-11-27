@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tool Box · Generador de fichas</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f3a5f">
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--fg:#1c2b3a;--muted:#5b6b7b;--line:#d6dee8;--pri:#2f6fb0;--pri2:#1f3a5f;--acc:#f2b705}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+a{color:var(--pri)}
+header{background:var(--pri2);color:#fff;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header a{color:#fff}header h1{margin:0;font-size:21px}
+main{max-width:1100px;margin:0 auto;padding:16px}
+button,.btn{font:inherit;border:2px solid var(--pri);background:#fff;color:var(--pri2);border-radius:10px;padding:8px 14px;cursor:pointer;text-decoration:none;display:inline-block;min-height:44px}
+button.main{background:var(--pri);color:#fff}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+label{display:block;font-weight:600;margin:10px 0 4px}
+textarea,input[type=text],input[type=number],select{font:inherit;width:100%;padding:8px;border:2px solid var(--line);border-radius:8px;background:#fff}
+textarea{min-height:170px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.two{display:grid;gap:14px;grid-template-columns:minmax(280px,380px) 1fr}
+@media(max-width:800px){.two{grid-template-columns:1fr}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.opts label{font-weight:400;margin:2px 0;display:flex;gap:8px;align-items:center}
+.opts label.w{grid-column:1/-1}
+.info{background:#fff8dc;border:1px solid #ecd98a;border-radius:10px;padding:10px 14px;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:4px 8px;background:#fff;font-size:15px}
+.chip img{width:34px;height:34px;object-fit:contain}.chip.no{border-style:dashed;background:#fff3f1}
+.chip button{min-height:32px;padding:2px 8px;font-size:14px}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:8px;max-height:300px;overflow:auto}
+.pick button{padding:4px;display:flex;flex-direction:column;align-items:center;font-size:12px;min-height:0}
+.pick img{width:64px;height:64px;object-fit:contain}
+/* hoja */
+#hoja .sheet{background:#fff;border:1px solid var(--line);padding:8mm;margin-bottom:14px;max-width:21cm}
+#hoja h2{font-size:16px;margin:0 0 6px}
+#hoja .note{font-size:13px;color:#444;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:0}
+.c{border:1px dashed #666;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;min-height:var(--h,5.4cm);break-inside:avoid;background:#fff;color:#000;position:relative}
+.c img{max-width:100%;max-height:calc(var(--h,5.4cm) - 1.7cm);object-fit:contain}
+.c span{font-size:var(--fs,20px);font-weight:700;line-height:1.15;margin-top:4px}
+.c.txt span{font-size:calc(var(--fs,20px) * 1.2)}
+.c.nop{border-style:solid;border-color:#c33}
+.c .n{position:absolute;top:3px;left:6px;font-size:13px;font-weight:700}
+.c.red{border:4px solid #d33}.c.blue{border:4px solid #36c}
+.c.sit{border:3px solid #36c;background:#eef4ff}.c.emo{border:3px solid #2a8;background:#eefaf4}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:100%}.mini img{max-height:2cm;width:100%}
+.blank{border:2px dashed #aaa;min-height:2cm;background:repeating-linear-gradient(45deg,#fff,#fff 6px,#f1f1f1 6px,#f1f1f1 12px)}
+.bn img{filter:grayscale(1) contrast(1.1)}
+.att{font-size:11px;color:#333;margin-top:8px;border-top:1px solid #999;padding-top:4px}
+#printArea{display:none}
+@media print{
+ @page{size:A4;margin:9mm}
+ body.imp header,body.imp main>p,body.imp main>.info,body.imp .two>div:first-child,body.imp .two>div:last-child>.panel{display:none!important}
+ body.imp .two{display:block}
+ #hoja .sheet{padding-bottom:12mm!important}
+ body.imp{background:#fff}
+ body.imp main{padding:0;max-width:none}
+ #hoja .sheet{border:0;padding:0;margin:0;max-width:none;break-after:page}
+ #hoja .sheet:last-child{break-after:auto}
+ .att{position:fixed;bottom:0;left:0;right:0;background:#fff}
+ .c{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" class="btn" style="background:transparent;border-color:#fff;color:#fff">← Tool Box</a>
+  <h1>Generador de fichas con pictogramas</h1>
+</header>
+<main>
+<p>Escribe las palabras, elige el juego y pulsa Imprimir. Las hojas salen con recorte, listas para A4. Funciona sin conexión con unas 340 palabras de uso escolar; para otras, puedes buscar en ARASAAC desde aquí.</p>
+<div class="two">
+ <div>
+  <div class="panel">
+   <label for="tpl">Juego o plantilla</label>
+   <select id="tpl"></select>
+   <p id="tplHelp" class="info" style="margin:8px 0"></p>
+   <label for="txt" id="txtLabel">Palabras (una por línea)</label>
+   <textarea id="txt" spellcheck="false"></textarea>
+   <p style="font-size:14px;color:var(--muted);margin:4px 0">Palabras con pictograma en la lista local: <span id="loc">…</span>. Las demás salen como texto hasta que pulses «Cambiar» en su pictograma.</p>
+  </div>
+  <div class="panel">
+   <div class="opts">
+    <label>Columnas <select id="cols" style="width:auto"><option>2</option><option selected>3</option><option>4</option></select></label>
+    <label id="cpWrap" style="display:none">Copias <input type="number" id="copies" min="2" max="8" value="4" style="width:70px"></label>
+    <label id="modeWrap" style="display:none">Pareja <select id="mode" style="width:auto"><option value="ii">imagen + imagen</option><option value="iw">imagen + palabra</option></select></label>
+    <label id="missWrap" style="display:none">Falta <select id="miss" style="width:auto"></select></label>
+    <label><input type="checkbox" id="word" checked> Escribir la palabra</label>
+    <label><input type="checkbox" id="bn"> Blanco y negro</label>
+    <label class="w"><input type="checkbox" id="online"> Buscar también en internet (ARASAAC)</label>
+   </div>
+   <p class="info" style="margin:8px 0 0">Si marcas la búsqueda en internet, cada palabra se envía a ARASAAC y se ve tu dirección IP. Con la casilla desmarcada no sale nada de este navegador.</p>
+  </div>
+  <button class="main" id="print">Imprimir o guardar en PDF</button>
+  <button id="reroll" style="display:none">Otra falta al azar</button>
+ </div>
+ <div>
+  <div class="panel"><b>Pictogramas de esta hoja</b><p style="font-size:14px;color:var(--muted);margin:2px 0 8px">Si alguno no es el que quieres, pulsa «Cambiar».</p><div class="chips" id="chips"></div><div id="picker"></div></div>
+  <div id="hojaWrap"><div id="hoja"></div></div>
+ </div>
+</div>
+<p class="info">Pictogramas: ARASAAC (<a href="https://arasaac.org">arasaac.org</a>), autor Sergio Palao, propiedad del Gobierno de Aragón, licencia CC BY-NC-SA. Las hojas que generes son obra derivada: uso no comercial y misma licencia. Cada hoja lleva esta atribución abajo y no se puede quitar.</p>
+</main>
+<script>
+var ATT='Pictogramas: ARASAAC (http://arasaac.org). Autor: Sergio Palao. Propiedad del Gobierno de Aragón. Licencia CC BY-NC-SA. Hoja hecha con Tool Box (Bursey y Santana, 2026).';
+var $=function(s){return document.querySelector(s)};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function nz(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim()}
+function sto(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem('tbg_'+k));localStorage.setItem('tbg_'+k,JSON.stringify(v))}catch(e){return null}}
+var LOCAL={},LIDX={},OV=sto('ov')||{},API={},rnd=Math.random();
+var TPL={
+ cartas:{n:'Cartas sueltas (palmada, mochila, Kim…)',h:'Una carta por palabra. Sirve para La palmada, La mochila o cualquier baraja de imágenes.',l:'Palabras (una por línea)',t:'perro\ngato\nconejo\ncaballo\nvaca\nmesa\nsilla\nlibro\nlápiz\npelota'},
+ parejas:{n:'Parejas de memoria',h:'Cada palabra sale dos veces. Se juega como el memory; puedes hacer la pareja con dos imágenes o imagen y palabra.',l:'Palabras (una por línea)',t:'perro\ngato\nsol\nluna\nflor\nárbol\nzapato\nreloj'},
+ falta:{n:'El objeto prohibido (juego 9)',h:'Cinco objetos en la mesa. La carta muestra cuatro: los prohibidos. Se coge el que falta. Con borde rojo la regla se invierte.',l:'Cinco objetos (uno por línea)',t:'pelota\nlibro\nzapato\ngorra\nparaguas'},
+ baraja:{n:'Abejas y flores (juego 10)',h:'Baraja con cada imagen repetida. Se giran de una en una y se grita «¡abeja!» cuando una sale por tercera vez.',l:'De cuatro a seis imágenes (una por línea)',t:'flor\nabeja\nárbol\nsol\nmariposa'},
+ kim:{n:'Ya lo he visto (lámina antes y después)',h:'Dos láminas iguales, pero a la segunda le falta una imagen. Se enseña la primera, se tapa y se dice qué falta en la segunda.',l:'De seis a nueve imágenes (una por línea)',t:'perro\ngato\nlibro\nmesa\nsol\nflor\nzapato\nreloj\npelota'},
+ secuencia:{n:'Ordena el día (juego 11)',h:'Tarjetas con los pasos de una rutina. El grupo las ordena de 1 a 5 y las cuenta en voz alta.',l:'Pasos en orden (uno por línea, de 3 a 5)',t:'suena el despertador\ndesayuno\ncojo la mochila\nvoy en guagua\nllego al cole'},
+ clasificar:{n:'Clasificar por categorías',h:'Cada línea es una categoría con sus palabras. Sale una carta de cabecera y las cartas de cada categoría, con color.',l:'Una categoría por línea: «Animales: perro, gato, vaca»',t:'Animales: perro, gato, vaca, oveja\nComida: pan, queso, manzana, huevo\nRopa: camiseta, falda, gorra, guantes'},
+ pares:{n:'¿Qué ha pasado? (juego 12)',h:'Cada línea es una situación y la emoción que provoca, separadas por «>». Dos barajas de color distinto para emparejar.',l:'Situación > emoción (una por línea)',t:'Pierdo la partida > triste\nMe regalan un juguete > alegre\nAlguien me quita mi sitio > enfadado\nOigo un ruido fuerte > asustado\nMañana hay una prueba > nervioso\nGano la carrera > orgulloso'},
+ stroop:{n:'Imagen y palabra que no coinciden',h:'La imagen de un animal con otra palabra escrita. Se dice lo que se ve o lo que se lee, según la señal. Para 2.º ciclo en adelante.',l:'Imagen > palabra escrita (una por línea)',t:'gato > perro\nperro > gato\nvaca > oveja\noveja > vaca\nconejo > caballo\ncaballo > conejo'}
+};
+var PRE={palmada:['cartas','perro\ngato\nconejo\ncaballo\nvaca\noveja\ncerdo\ngallina\ntortuga\nmariposa\nmesa\nsilla\nlibro\nlápiz\npelota\ncasa\ncoche\nárbol\nflor\nzapato\nreloj\nmochila\npuerta\nventana\ncamiseta\nluna\nsol'],mochila:['cartas','cuaderno\ngorra\nlibro\npelota\nbotella\ngafas de sol\nparaguas\ncalcetines\nbufanda\nguantes\nllave\nzapato\nreloj\nmochila\nestuche'],prohibido:['falta'],abejas:['baraja'],kim:['kim'],dia:['secuencia'],pares:['pares']};
+function nombrePre(p){return PRE[p]?PRE[p][0]:null}
+/* datos locales */
+function norm(k){return nz(k)}
+function loadLocal(d){LOCAL=d;Object.keys(d).forEach(function(k){LIDX[norm(k)]=k});$('#loc').textContent=Object.keys(d).length;render()}
+fetch('descargas/pictogramas-arasaac.json').then(function(r){return r.json()}).then(loadLocal).catch(function(){$('#loc').textContent='no se pudo cargar (abre la página desde una web o un servidor, no desde el archivo)';render()});
+function localKey(l){var n=norm(l),c=[n,n.replace(/s$/,''),n.replace(/es$/,''),n+'s'];for(var i=0;i<c.length;i++)if(LIDX[c[i]])return LIDX[c[i]];return null}
+function srcFor(label){
+  var o=OV[nz(label)];
+  if(o===0)return null;
+  if(o&&o.k&&LOCAL[o.k])return 'data:image/webp;base64,'+LOCAL[o.k].b;
+  if(o&&o.id)return 'https://static.arasaac.org/pictograms/'+o.id+'/'+o.id+'_300.png';
+  var k=localKey(label);if(k)return 'data:image/webp;base64,'+LOCAL[k].b;
+  if($('#online').checked){
+    var n=nz(label);
+    if(API[n]===undefined){API[n]=null;fetch('https://api.arasaac.org/v1/pictograms/es/bestsearch/'+encodeURIComponent(label)).then(function(r){return r.json()}).then(function(j){API[n]=(j&&j[0])?j[0]._id:0;render()}).catch(function(){API[n]=0})}
+    if(API[n])return 'https://static.arasaac.org/pictograms/'+API[n]+'/'+API[n]+'_300.png';
+  }
+  return null;
+}
+/* tarjetas */
+var USED=[];
+function pic(label){if(USED.indexOf(label)<0)USED.push(label);return srcFor(label)}
+function cardH(label,o){
+  o=o||{};var s=o.noPic?null:pic(label),showW=o.word===undefined?$('#word').checked:o.word;
+  var inner=(s?'<img src="'+s+'" alt="">':'')+((showW||!s)?'<span>'+esc(label)+'</span>':'');
+  return '<div class="c '+(o.cls||'')+(s||o.noPic?'':' nop')+'">'+(o.n?'<i class="n">'+o.n+'</i>':'')+inner+'</div>';
+}
+function items(txt){return txt.split(/[\n,]/).map(function(x){return x.trim()}).filter(Boolean)}
+function pairs(txt){return txt.split('\n').map(function(x){var p=x.split('>');return p.length>1?[p[0].trim(),p.slice(1).join('>').trim()]:null}).filter(function(p){return p&&p[0]&&p[1]})}
+function sheet(title,note,cards,cols){return '<div class="sheet"><h2>'+esc(title)+'</h2>'+(note?'<p class="note">'+esc(note)+'</p>':'')+'<div class="grid" style="--cols:'+(cols||$('#cols').value)+'">'+cards+'</div><div class="att">'+ATT+'</div></div>'}
+function sizes(){var c=+$('#cols').value;document.getElementById('hoja').style.setProperty('--h',c===2?'8.2cm':c===3?'5.4cm':'4cm');document.getElementById('hoja').style.setProperty('--fs',c===2?'26px':c===3?'20px':'16px')}
+function build(t,txt){
+  var L=items(txt),h='';
+  if(t==='cartas')return sheet('Cartas ('+L.length+')','Recorta por las líneas de puntos.',L.map(function(x){return cardH(x)}).join(''));
+  if(t==='parejas'){var m=$('#mode').value,a=L.map(function(x){return cardH(x,{word:m==='ii'?undefined:false})}),b=L.map(function(x){return m==='ii'?cardH(x):cardH(x,{noPic:true})});
+    return sheet('Parejas de memoria ('+L.length*2+' cartas)','Imprime, recorta y pega un reverso liso para que no se vean.',a.concat(b).join(''))}
+  if(t==='falta'){
+    if(L.length<5||L.length>6)h+='<div class="sheet"><p class="info">Necesitas 5 o 6 objetos. Ahora hay '+L.length+'.</p></div>';
+    h+=sheet('Objetos para la mesa','Ponlos en el centro, a la vista de todos.',L.map(function(x){return cardH(x)}).join(''));
+    var cs=[];L.forEach(function(x,i){var rest=L.filter(function(_,j){return j!==i});[['blue',''],['red','']].forEach(function(k){
+      cs.push('<div class="c '+k[0]+'"><div class="mini">'+rest.map(function(y){var s=pic(y);return s?'<img src="'+s+'" alt="'+esc(y)+'">':'<span>'+esc(y)+'</span>'}).join('')+'</div></div>')})});
+    return h+sheet('Cartas del juego ('+cs.length+')','Borde azul: coge el objeto que NO sale. Borde rojo (nivel 2): coge uno de los que sí salen, el primero de la fila de arriba.',cs.join(''),$('#cols').value)}
+  if(t==='baraja'){var cp=Math.max(2,Math.min(8,+$('#copies').value||4)),c=[];for(var i=0;i<cp;i++)L.forEach(function(x){c.push(cardH(x))});
+    return sheet('Baraja ('+c.length+' cartas, '+cp+' copias de cada una)','Se gira una carta cada vez. Cuando una imagen sale por tercera vez, todos dicen «¡abeja!».',c.join(''))}
+  if(t==='kim'){
+    if(!L.length)return '';var n=L.length,miss=$('#miss').value,mi=miss==='az'?Math.floor(rnd*n):+miss;
+    var cols=n<=6?3:3,mk=function(sin){return L.map(function(x,i){return i===sin?'<div class="c blank"></div>':cardH(x)}).join('')};
+    return sheet('Lámina 1: todas las imágenes','Se enseña un momento y se tapa.',mk(-1),cols)+sheet('Lámina 2: falta «'+L[mi]+'»','El grupo dice qué imagen ha desaparecido.',mk(mi),cols)}
+  if(t==='secuencia'){return sheet('Ordena el día ('+L.length+' pasos)','Se mezclan las tarjetas y el grupo las ordena. El número ayuda al docente a comprobar.',L.map(function(x,i){return cardH(x,{n:i+1,word:true})}).join(''),Math.min(+$('#cols').value,L.length>3?3:L.length))}
+  if(t==='clasificar'){var cols=['#d33','#36c','#2a8','#e90','#a5c'],ch='',ci='';
+    txt.split('\n').forEach(function(line,i){var p=line.split(':');if(p.length<2)return;var nm=p[0].trim(),co=cols[i%5];
+      ch+='<div class="c" style="border:5px solid '+co+';background:'+co+'22"><span style="font-size:26px">'+esc(nm)+'</span></div>';
+      items(p.slice(1).join(':')).forEach(function(x){ci+=cardH(x).replace('class="c ','style="border:3px solid '+co+'" class="c ')})});
+    return sheet('Cabeceras de categoría','Se ponen sobre la mesa.',ch)+sheet('Cartas para clasificar','Cada carta tiene el borde del color de su categoría, para poder comprobar.',ci)}
+  if(t==='pares'){var P=pairs(txt);return sheet('Situaciones ('+P.length+')','Baraja azul. Se emparejan con la emoción.',P.map(function(p){return cardH(p[0],{cls:'sit',word:true,noPic:true})}).join(''))+sheet('Emociones ('+P.length+')','Baraja verde.',P.map(function(p){return cardH(p[1],{cls:'emo',word:true})}).join(''))}
+  if(t==='stroop'){var P2=pairs(txt);return sheet('Imagen y palabra ('+P2.length+')','Dice el docente: «lo que ves» o «lo que lees».',P2.map(function(p){var s=pic(p[0]);return '<div class="c">'+(s?'<img src="'+s+'" alt="">':'')+'<span style="font-size:30px">'+esc(p[1])+'</span></div>'}).join(''))}
+  return '';
+}
+function render(){
+  var t=$('#tpl').value,txt=$('#txt').value;USED=[];sizes();
+  document.body.classList.toggle('bnw',$('#bn').checked);
+  $('#hoja').className=$('#bn').checked?'bn':'';
+  var kimOpts=['<option value="az">al azar</option>'];if(t==='kim'){items(txt).forEach(function(x,i){kimOpts.push('<option value="'+i+'">'+esc(x)+'</option>')})}
+  if(t==='kim'){var cur=$('#miss').value;$('#miss').innerHTML=kimOpts.join('');if([].some.call($('#miss').options,function(o){return o.value===cur}))$('#miss').value=cur}
+  $('#hoja').innerHTML=build(t,txt);
+  $('#cpWrap').style.display=t==='baraja'?'flex':'none';$('#modeWrap').style.display=t==='parejas'?'flex':'none';
+  $('#missWrap').style.display=t==='kim'?'flex':'none';$('#reroll').style.display=t==='kim'?'inline-block':'none';
+  var ch='';USED.forEach(function(l){var s=srcFor(l);ch+='<div class="chip'+(s?'':' no')+'">'+(s?'<img src="'+s+'" alt="">':'')+'<span>'+esc(l)+'</span><button data-ed="'+esc(l)+'">Cambiar</button></div>'});
+  $('#chips').innerHTML=ch||'<span style="color:var(--muted)">Aún no hay palabras.</span>';
+  sto('t',t);sto('x_'+t,txt);
+}
+/* selector de pictograma */
+var edLabel='';
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-ed]');if(b){edLabel=b.getAttribute('data-ed');openPicker(edLabel,edLabel)}
+  var p=e.target.closest('[data-pick]');if(p){var v=p.getAttribute('data-pick');OV[nz(edLabel)]=v==='none'?0:(v.charAt(0)==='k'?{k:v.slice(2)}:{id:+v.slice(2)});sto('ov',OV);$('#picker').innerHTML='';render()}
+});
+function openPicker(label,q){
+  var h='<label for="q">Buscar para «'+esc(label)+'»</label><div style="display:flex;gap:6px"><input type="text" id="q" value="'+esc(q)+'"><button id="qg" class="main">Buscar</button></div><div class="pick" id="pk"></div>';
+  $('#picker').innerHTML=h;
+  var go=function(){var s=nz($('#q').value),o='<button data-pick="none">Sin<br>pictograma</button>',n=0;
+    Object.keys(LOCAL).forEach(function(k){if(n<30&&nz(k).indexOf(s)>=0){n++;o+='<button data-pick="k:'+esc(k)+'"><img src="data:image/webp;base64,'+LOCAL[k].b+'" alt="">'+esc(k)+'</button>'}});
+    $('#pk').innerHTML=o;
+    if($('#online').checked){fetch('https://api.arasaac.org/v1/pictograms/es/search/'+encodeURIComponent($('#q').value)).then(function(r){return r.json()}).then(function(j){var x='';(j||[]).slice(0,16).forEach(function(r){x+='<button data-pick="i:'+r._id+'"><img src="https://static.arasaac.org/pictograms/'+r._id+'/'+r._id+'_300.png" alt="">'+esc((r.keywords[0]||{}).keyword||'')+'</button>'});$('#pk').insertAdjacentHTML('beforeend',x)}).catch(function(){$('#pk').insertAdjacentHTML('beforeend','<p>No se pudo buscar en internet.</p>')})}
+    else if(!n)$('#pk').insertAdjacentHTML('beforeend','<p style="grid-column:1/-1;font-size:14px">Nada en la lista local. Marca «Buscar también en internet» para probar en ARASAAC.</p>');
+  };
+  $('#qg').onclick=go;$('#q').onkeydown=function(e){if(e.key==='Enter')go()};go();
+}
+/* arranque */
+var sel=$('#tpl');sel.innerHTML=Object.keys(TPL).map(function(k){return '<option value="'+k+'">'+TPL[k].n+'</option>'}).join('');
+function setTpl(t,txt){sel.value=t;$('#tplHelp').textContent=TPL[t].h;$('#txtLabel').textContent=TPL[t].l;$('#txt').value=txt!==undefined?txt:(sto('x_'+t)||TPL[t].t);render()}
+sel.onchange=function(){setTpl(sel.value)};
+['txt','cols','copies','mode','miss','word','bn','online'].forEach(function(id){var el=$('#'+id);el.addEventListener('input',render);el.addEventListener('change',render)});
+$('#reroll').onclick=function(){rnd=Math.random();$('#miss').value='az';render()};
+$('#print').onclick=function(){document.body.classList.add('imp');window.print();document.body.classList.remove('imp')};
+var qs=new URLSearchParams(location.search),pp=qs.get('p');if(qs.get('imp'))document.body.classList.add('imp');
+if(pp&&PRE[pp]){var tt=PRE[pp][0];setTpl(tt,PRE[pp][1]!==undefined?PRE[pp][1]:TPL[tt].t)}else setTpl(sto('t')&&TPL[sto('t')]?sto('t'):'cartas');
+</script>
+</body>
+</html>

@@ -12,3 +12,5 @@ Abrir `tool-box\index.html` desde un servidor local (por ejemplo `python -m http
 - Cada ficha de juego del aula tiene boton 'Imprimir tarjetas' (hoja A4 con recorte). Cambia la regla genera 27 cartas (3x3x3); 27 en web, capitulo 4 y anexo 1 (igualado el 26-11).
 
 - flexibilidad.html: juego en pantalla Cambia la regla (3 niveles). Plan del trimestre, copia de seguridad, CSV y letra A-/A+ en index.html. Funciona sin conexion (sw.js) cuando se sirve por http(s).
+
+- 27-11-2026: doce juegos en el banco (nuevos: 9 El objeto prohibido, 10 Abejas y flores, 11 Ordena el dia, 12 Que ha pasado). generador.html hace las hojas A4 con pictogramas ARASAAC (plantillas: cartas, parejas, objeto prohibido, abejas, Kim, ordena el dia, clasificar, situacion y emocion, imagen y palabra). Lista local de 342 palabras en descargas/pictogramas-arasaac.json; para ampliarla: python herramientas/ampliar-pictogramas.py (en caja-herramientas, no se publica). La busqueda en internet viene desmarcada (envia la IP a ARASAAC). Atribucion impresa en cada hoja. Falta confirmar el texto de arasaac.org/terms-of-use.

@@ -167,7 +167,8 @@ main:focus{outline:none}nav::-webkit-scrollbar{display:none}
   <div class="card steps"><h3>Una partida en tres pasos</h3><ol><li><b>Anticipar (2 min).</b> Cuenta qué vais a jugar, cuántas rondas hay y qué se hace si alguien pierde. Deja la regla a la vista.</li><li><b>Jugar (15 a 20 min).</b> Una ronda de prueba y luego la partida. Si no sale, se baja el nivel.</li><li><b>Cerrar (3 min).</b> Celebrad el final sin señalar a nadie y pregunta qué ha sido lo difícil. Anota una línea en el diario.</li></ol><p><a href="#" data-go="plan">Ver el plan de un trimestre</a></p></div>
   <h3>Además</h3>
   <div class="big">
-    <a class="card" href="#" data-go="juegos"><h3>Todo el banco de juegos</h3><p>Los ocho juegos del aula, con tarjetas para imprimir.</p></a>
+    <a class="card" href="#" data-go="juegos"><h3>Todo el banco de juegos</h3><p>Los doce juegos del aula, con tarjetas para imprimir.</p></a>
+    <a class="card" href="generador.html"><h3>Generador de fichas</h3><p>Tarjetas con pictogramas de ARASAAC, listas para imprimir.</p></a>
     <a class="card" href="#" data-go="pautas"><h3>Tabla de pautas</h3><p>Las cinco funciones, con todo el grupo, TDAH y TEA.</p></a>
     <a class="card" href="#" data-go="pantalla"><h3>Juegos en pantalla</h3><p>Diez juegos con tres niveles para el alumnado.</p></a>
     <a class="card" href="#" data-go="series"><h3>Series de imágenes</h3><p>Frases, secuencias, qué ha pasado y qué pasará.</p></a>
@@ -245,7 +246,7 @@ main:focus{outline:none}nav::-webkit-scrollbar{display:none}
   <h2>Plan del trimestre</h2>
   <p>Una secuencia posible de doce semanas, con dos partidas por semana. Marca lo que ya has hecho; se queda guardado en este navegador. Es un orden de ejemplo: cámbialo como te venga mejor.</p>
   <div id="planOut"></div>
-  <p class="info">Con dos partidas por semana salen unas veinticuatro, más que los ocho juegos. Cada juego se repite: primero la versión general y luego el nivel ampliado o una regla que cambia el propio grupo.</p>
+  <p class="info">Con dos partidas por semana salen unas veinticuatro, más que los doce juegos. Cada juego se repite: primero la versión general y luego el nivel ampliado o una regla que cambia el propio grupo.</p>
   <div class="row noprint"><button onclick="printSec('plan')">Imprimir el plan</button><button id="planReset">Borrar marcas</button></div>
 </section>
 
@@ -274,7 +275,8 @@ main:focus{outline:none}nav::-webkit-scrollbar{display:none}
     <div class="card"><h3>Evaluación curricular (Excel)</h3><p>Hoja por criterios y saberes, Infantil y Primaria.</p><a class="btn" href="descargas/evaluacion-curricular.xlsx" download>Descargar</a></div>
     <div class="card"><h3>Evaluación por áreas (Excel)</h3><p>Una pestaña por área y ciclo.</p><a class="btn" href="descargas/evaluacion-por-areas.xlsx" download>Descargar</a></div>
     <div class="card"><h3>Arrorró (PDF)</h3><p>Letra para el momento de calma.</p><a class="btn" href="descargas/arrorro.pdf" download>Descargar</a></div>
-    <div class="card"><h3>Pictogramas (lista JSON)</h3><p>139 palabras con su pictograma de ARASAAC, para los juegos.</p><a class="btn" href="descargas/pictogramas-arasaac.json" download>Descargar</a></div>
+    <div class="card"><h3>Generador de fichas</h3><p>Tarjetas para imprimir con pictogramas de ARASAAC: parejas, secuencias, clasificar y los juegos 9 a 12.</p><a class="btn main" href="generador.html">Abrir el generador</a></div>
+    <div class="card"><h3>Pictogramas (lista JSON)</h3><p>342 palabras con su pictograma de ARASAAC, para los juegos.</p><a class="btn" href="descargas/pictogramas-arasaac.json" download>Descargar</a></div>
   </div>
   <h3>Anticipar con pictogramas</h3>
   <p>Antes de un juego conviene mostrar el orden de lo que va a pasar (explicar, jugar, recoger) con pictogramas. Pictogramas: ARASAAC (arasaac.org), Gobierno de Aragón, licencia CC BY-NC-SA: hay que citar la autoría, no usarlos con fines comerciales y compartir igual.</p>
@@ -289,14 +291,18 @@ main:focus{outline:none}nav::-webkit-scrollbar{display:none}
 <script>
 var FE={ci:['Control inhibitorio','fe-ci'],mt:['Memoria de trabajo','fe-mt'],fc:['Flexibilidad cognitiva','fe-fc'],pl:['Planificación','fe-pl'],re:['Regulación emocional','fe-re']};
 var GAMES=[
-{n:1,t:'La palmada',fe:'ci',ap:'',area:'Lengua',ciclo:'1.º y 2.º ciclo',mec:'Se van girando cartas con palabras; solo se da la palmada cuando sale un nombre de animal.',mat:'Baraja de 40 tarjetas con palabra',sube:'Segunda regla (palmada con animales, golpe en la mesa con comidas): añade memoria de trabajo.'},
+{n:1,t:'La palmada',fe:'ci',ap:'',gen:'palmada',area:'Lengua',ciclo:'1.º y 2.º ciclo',mec:'Se van girando cartas con palabras; solo se da la palmada cuando sale un nombre de animal.',mat:'Baraja de 40 tarjetas con palabra',sube:'Segunda regla (palmada con animales, golpe en la mesa con comidas): añade memoria de trabajo.'},
 {n:2,t:'Al revés',fe:'ci',ap:'flexibilidad',area:'Matemáticas',ciclo:'1.º y 2.º ciclo',mec:'Tarjetas con un número grande o pequeño: hay que decir lo contrario de lo que se ve. Cada tres rondas cambia qué significa «al revés».',mat:'20 tarjetas',sube:'Cambiar el significado de «al revés» más a menudo.'},
-{n:3,t:'La mochila',fe:'mt',ap:'',area:'Lengua',ciclo:'Todos',mec:'«Me voy de viaje y meto en la mochila…»: cada jugador repite la lista y añade un objeto. El equipo gana si llega a diez objetos. Si se olvida, se pide una pista.',mat:'Mochila y 15 objetos o tarjetas',sube:'Más objetos o menos pistas.'},
+{n:3,t:'La mochila',fe:'mt',ap:'',gen:'mochila',area:'Lengua',ciclo:'Todos',mec:'«Me voy de viaje y meto en la mochila…»: cada jugador repite la lista y añade un objeto. El equipo gana si llega a diez objetos. Si se olvida, se pide una pista.',mat:'Mochila y 15 objetos o tarjetas',sube:'Más objetos o menos pistas.'},
 {n:4,t:'Parejas que suman',fe:'mt',ap:'inhibición',area:'Matemáticas',ciclo:'1.º y 2.º ciclo',mec:'Memoria con las cartas boca abajo, pero las parejas son dos cartas que suman 10.',mat:'20 cartas numeradas',sube:'Más cartas o sumar 20.'},
 {n:5,t:'Cambia la regla',fe:'fc',ap:'',area:'Matemáticas',ciclo:'2.º y 3.er ciclo',mec:'Se clasifican cartas por color; cuando suena la campana, la regla cambia a forma o a número y se sigue clasificando.',mat:'27 cartas (tres colores, tres formas, tres números) y campana',sube:'Versión ampliada: solo suena la campana y hay que adivinar la regla por las cartas que el docente acepta.'},
 {n:6,t:'Ruta en cinco pasos',fe:'pl',ap:'',area:'Conocimiento del Medio',ciclo:'2.º y 3.er ciclo',mec:'En un tablero con obstáculos, cada jugador escribe su ruta de cinco pasos antes de mover la ficha. Si choca, vuelve al inicio y corrige la ruta.',mat:'Tablero de 6 × 6, fichas y tarjetas de flechas',sube:'Más pasos o más obstáculos.'},
 {n:7,t:'El mapa partido',fe:'pl',ap:'regulación emocional',area:'Conocimiento del Medio',ciclo:'2.º y 3.er ciclo',mec:'Cooperativo: cada jugador tiene un trozo del mapa y nadie puede enseñarlo. Hablando, el equipo acuerda un camino de la escuela al parque.',mat:'Mapa en dos piezas (cuatro en el nivel ampliado) y ficha del equipo',sube:'Mapa en cuatro piezas y dos calles cortadas.'},
-{n:8,t:'Tropiezos',fe:'re',ap:'inhibición',area:'Educación Emocional y para la Creatividad',ciclo:'Todos',mec:'Carrera de dados. Las casillas rojas obligan a sacar una tarjeta de tropiezo («pierdes un turno»). Antes de seguir, el jugador dice qué siente y elige una tarjeta de estrategia.',mat:'Tablero, dado, 12 tarjetas de tropiezo y 6 de estrategia',sube:'Más casillas rojas.'}
+{n:8,t:'Tropiezos',fe:'re',ap:'inhibición',area:'Educación Emocional y para la Creatividad',ciclo:'Todos',mec:'Carrera de dados. Las casillas rojas obligan a sacar una tarjeta de tropiezo («pierdes un turno»). Antes de seguir, el jugador dice qué siente y elige una tarjeta de estrategia.',mat:'Tablero, dado, 12 tarjetas de tropiezo y 6 de estrategia',sube:'Más casillas rojas.'},
+{n:9,t:'El objeto prohibido',fe:'ci',ap:'flexibilidad',area:'Conocimiento del Medio',ciclo:'Todos',gen:'prohibido',mec:'Cinco objetos en el centro de la mesa. Se levanta una carta con cuatro pictogramas: esos objetos están prohibidos. Gana la ronda quien coge antes el que no sale en la carta.',mat:'Cinco objetos (o sus tarjetas) y 10 cartas con pictogramas',sube:'Las cartas con borde rojo invierten la regla: se coge uno de los que sí salen, el primero de la fila de arriba.'},
+{n:10,t:'Abejas y flores',fe:'mt',ap:'inhibición',area:'Matemáticas',ciclo:'1.º y 2.º ciclo',gen:'abejas',mec:'Baraja de cinco imágenes repetidas cuatro veces. Se gira una carta cada vez y el grupo lleva la cuenta. Cuando una imagen sale por tercera vez, todos dicen «¡abeja!»; si se dice antes de tiempo, la carta se descarta.',mat:'Baraja de 20 cartas con pictogramas',sube:'Cuarta vez en lugar de tercera, o dos imágenes que cuentan a la vez.'},
+{n:11,t:'Ordena el día',fe:'pl',ap:'',area:'Conocimiento del Medio',ciclo:'Todos',gen:'dia',mec:'Se reparten tarjetas con los pasos de una rutina (levantarse, desayunar, ir al cole…). El grupo las ordena y las cuenta en voz alta; después se cambia un paso y hay que decir qué pasaría.',mat:'De tres a cinco tarjetas por rutina, con pictograma',sube:'Más pasos, o un paso que falta y hay que inventarlo.'},
+{n:12,t:'¿Qué ha pasado?',fe:'fc',ap:'regulación emocional',area:'Educación Emocional y para la Creatividad',ciclo:'2.º y 3.er ciclo',gen:'pares',mec:'Dos barajas: situaciones (azul) y emociones (verde). Se empareja cada situación con la emoción que provoca y se comenta si otra persona podría sentir otra cosa.',mat:'Seis a diez tarjetas de situación y otras tantas de emoción',sube:'Dos emociones posibles para una misma situación.'}
 ];
 var PAUTAS=[
 {fe:'ci',g:'Turnos cortos y en orden fijo. Una regla escrita o dibujada a la vista. Se nombra el truco para esperar (manos debajo de la mesa, contar en silencio).',tdah:'Un objeto que marque de quién es el turno (una ficha que se pasa). Sentarse cerca del docente. Un papel activo cuando no le toca (repartir, ser árbitro). Reconocer en el momento cuando espera bien.',tea:'Decir antes de empezar cuántos turnos va a haber. El orden de los turnos, siempre el mismo y visible.'},
@@ -317,7 +323,8 @@ fc:{d:'Cambiar de regla o de punto de vista cuando la situación cambia, sin que
 pl:{d:'Pensar los pasos antes de actuar y ordenarlos para llegar a una meta.',scr:[],ser:[['frase','Construye la frase'],['secuencia','Ordena la secuencia'],['pasado','¿Qué ha pasado?'],['despues','¿Qué pasará después?']]},
 re:{d:'Notar lo que se siente y elegir qué hacer con ello, sobre todo al perder o equivocarse.',scr:[['Página de calma: respiración, yoga y cuentos','calma.html'],['Semáforo de ruido','calma.html']],ser:[]}
 };
-function gameCard(g){return '<article class="card"><h3>'+g.n+'. '+g.t+'</h3><span class="tag '+FE[g.fe][1]+'">'+FE[g.fe][0]+(g.ap?' ('+g.ap+')':'')+'</span><span class="tag">'+g.area+'</span><span class="tag">'+g.ciclo+'</span><p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p><button class="noprint" data-pc="'+g.n+'">Imprimir tarjetas</button></article>'}
+function btns(g){var b=g.n<=8?'<button class="noprint" data-pc="'+g.n+'">Imprimir tarjetas</button> ':'';return b+(g.gen?'<a class="btn noprint" href="generador.html?p='+g.gen+'">'+(g.n<=8?'Con pictogramas':'Hacer las tarjetas con pictogramas')+'</a>':'')}
+function gameCard(g){return '<article class="card"><h3>'+g.n+'. '+g.t+'</h3><span class="tag '+FE[g.fe][1]+'">'+FE[g.fe][0]+(g.ap?' ('+g.ap+')':'')+'</span><span class="tag">'+g.area+'</span><span class="tag">'+g.ciclo+'</span><p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p>'+btns(g)+'</article>'}
 function drawFE(k){
   var f=FEI[k],p=PAUTAS.filter(function(x){return x.fe===k})[0],h='';
   h+='<div class="fehead '+k+'">'+SHAPE[k]+'<div><h2>'+FE[k][0]+'</h2><p style="margin:0">'+f.d+'</p></div></div>';
@@ -357,7 +364,7 @@ function drawGames(){
   $$('#feFilter button').forEach(function(b){b.setAttribute('aria-pressed',b.classList.contains('on'));b.onclick=function(){feSel=b.dataset.f;drawGames()}});
   $('#gameGrid').innerHTML=GAMES.filter(function(g){return feSel==='todas'||g.fe===feSel}).map(function(g){
     return '<article class="card"><h3>'+g.n+'. '+g.t+'</h3><span class="tag '+FE[g.fe][1]+'">'+FE[g.fe][0]+(g.ap?' ('+g.ap+')':'')+'</span><span class="tag">'+g.area+'</span><span class="tag">'+g.ciclo+'</span>'+
-    '<p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p><button class="noprint" data-pc="'+g.n+'">Imprimir tarjetas</button></article>'}).join('');
+    '<p><b>Cómo se juega.</b> '+esc(g.mec)+'</p><p><b>Material.</b> '+esc(g.mat)+'</p><p><b>Para subir el nivel.</b> '+esc(g.sube)+'</p>'+btns(g)+'</article>'}).join('');
 }
 $('#feOut').addEventListener('click',function(e){var b=e.target.closest('[data-pc]');if(b)printCards(+b.dataset.pc)});
 $('#gameGrid').addEventListener('click',function(e){var b=e.target.closest('[data-pc]');if(b)printCards(+b.dataset.pc)});
